@@ -1,0 +1,4 @@
+export const GET_NEWS = 'GET_NEWS';
+export const GET_HISTORIES = 'GET_HISTORIES';
+export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
+export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
