@@ -1,6 +1,6 @@
 <script>
 	import { getTopicList } from '../vuex/getters';
-	import { getNews } from '../vuex/actions';
+	import { getList } from '../vuex/actions';
 	export default {
 		computed: {
 			getLists () {
@@ -8,14 +8,14 @@
 			}
 		},
 		created() {
-			this.getNews();
+			this.getList();
 		},
 		vuex: {
 			getters: {
 				lists: getTopicList
 			},
 			actions: {
-				getNews
+				getList
 			}
 		}
 	}
@@ -28,7 +28,7 @@
         <div class="user_avatar">
           <img :src="item.author.avatar_url"/> 
         </div> 
-        <a v-link="{ path: '/t' + item.id }" class="topic_title">
+        <a v-link="{ path: '/t/' + item.id }" class="topic_title">
         	<h4>{{ item.title }}</h4> 
         </a> 
         <div class="reply_view">
