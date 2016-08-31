@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "webpack --watch -d",
-    "start": "webpack-dev-server --inline --host 0.0.0.0 --port 5000 --history-api-fallback"
+    "start": "node server.js"
   },
   "dependencies": {
     "opn": "^4.0.2",

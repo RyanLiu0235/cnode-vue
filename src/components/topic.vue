@@ -104,6 +104,8 @@
 	      	img {
 	      		display: inline-block;
 	      		width: 20px;
+						margin-right: 3px;
+						vertical-align: middle;
 	      	}
 	      }
 	      span {
