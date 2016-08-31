@@ -49,9 +49,9 @@
 			<div class="topic_header">
 				<h2 class="topic_title">{{getTopic.title}}</h2>
 				<div class="topic_info">
-					<span>{{getTopic.author}}</span>
-					<span>{{getTopic.create | timeFormat}}</span>
-					<span>{{getTopic.reply}} / {{getTopic.read}}</span>
+					<span>{{getTopic.author.loginname}}</span>
+					<span>{{getTopic.create_at | timeFormat}}</span>
+					<span>{{getTopic.reply_count}} / {{getTopic.visit_count}}</span>
 				</div>
 			</div>
 			<div class="topic_body">
