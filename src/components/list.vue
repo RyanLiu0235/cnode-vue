@@ -43,7 +43,7 @@
 
 <style lang="less">
 .topic_list {
-	margin-top: 10px;
+	padding: 0 5px;
 	background-color: #fff;
 	.topic_item {
 		display: flex;
