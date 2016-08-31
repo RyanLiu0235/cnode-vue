@@ -32,7 +32,12 @@
 			<div class="topic_header">
 				<h2 class="topic_title">{{getTopic.title}}</h2>
 				<div class="topic_info">
-					<a class="topic_author" v-link=""><img :src="getTopic.author.avatar_url">{{getTopic.author.loginname}}</a>
+					<a class="topic_author_link" v-link="{path: '/u/' + getTopic.author.loginname}">
+						<div class="author_avatar">
+							<img :src="getTopic.author.avatar_url" />
+						</div>
+						<span class="topic_author">{{getTopic.author.loginname}}</span>
+					</a>
 					<span>{{getTopic.create_at | timeFormat}}</span>
 					<span>{{getTopic.reply_count}} / {{getTopic.visit_count}}</span>
 				</div>
@@ -46,10 +51,12 @@
 			<div class="comment_list">
 				<div class="comment_item" v-for="reply in topic.replies">	
 					<div class="user_info">
-						<div class="user_avatar">
-							<img :src="reply.author.avatar_url" />
-						</div>
-						<div class="user_name">{{reply.author.loginname}}</div>
+						<a class="user_link" v-link="{path: '/u/' + reply.author.loginname}">
+							<div class="user_avatar">
+								<img :src="reply.author.avatar_url" />
+							</div>
+							<div class="user_name">{{reply.author.loginname}}</div>
+						</a>
 						<div class="time_stamp">{{reply.create_at | timeFormat }}</div>
 						<div class="floor">{{$index + 1}}楼</div>
 					</div>
@@ -77,19 +84,29 @@
 	      overflow: hidden;
 	    }
 	    .topic_info {
-	      height: 20px;
-	      line-height: 20px;
+	    	display: flex;
+	    	align-items: center;
+	      height: 34px;
+	      line-height: 34px;
 	      margin-top: 5px;
-	      .topic_author {
-	      	margin-right: 4px;
-	      	color: #999;
-	      	font-size: 10px;
-	      	img {
-	      		display: inline-block;
-	      		width: 20px;
-						margin-right: 3px;
-						vertical-align: middle;
-	      	}
+	      .topic_author_link {
+	      	display: flex;
+	      	align-items: center;
+	        .author_avatar {
+	        	width: 30px;
+		        margin-right: 10px;
+		        border-radius: 50%;
+		        overflow: hidden;
+	        }
+	        img {
+	        	display: block;
+	          width: 100%;
+	        }
+	        .topic_author {
+		        margin-right: 5px;
+		        font-size: 10px;
+		        color: #666;
+		      }
 	      }
 	      span {
 	        margin-right: 4px;
@@ -130,22 +147,17 @@
 	      display: flex;
 	      align-items: center;
 	      height: 30px;
+	      .user_link {
+	      	display: flex;
+	      	align-items: center;
+	      }
 	      .user_avatar {
-	        position: relative;
 	        width: 30px;
 	        margin-right: 10px;
 	        border-radius: 50%;
 	        overflow: hidden;
-	        &:after {
-	          content: '';
-	          display: block;
-	          width: 100%;
-	          padding-top: 100%;
-	        }
 	        img {
-	          position: absolute;
-	          top: 0;
-	          left: 0;
+	        	display: block;
 	          width: 100%;
 	        }
 	      }
