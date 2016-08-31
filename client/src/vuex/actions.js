@@ -16,7 +16,12 @@ export const getCurTopic = ({ dispatch }, tid) => {
   dispatch(types.GET_TOPIC);
   return Vue.http.get('https://cnodejs.org/api/v1/topic/' + tid)
     .then(res => {
-      dispatch(types.GET_TOPIC_SUCCESS, res.data);
+      if (res.data.success) {
+        dispatch(types.GET_TOPIC_SUCCESS, res.data.data);
+      } else {
+        dispatch(types.GET_TOPIC_FAILURE, res.data);
+      }
+      
     }, res => {
       dispatch(types.GET_TOPIC_FAILURE, res);
     });
