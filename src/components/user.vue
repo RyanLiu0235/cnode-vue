@@ -74,7 +74,7 @@
 	</div>
 </template>
 
-<style lang="less">
+<style lang="less" scope>
 .panel {
 	padding: 10px 5px;
 	margin-top: 10px;
