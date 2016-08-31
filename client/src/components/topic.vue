@@ -44,12 +44,12 @@
 </script>
 
 <template>
-	<div class="topic_detail">
+	<div v-if="!!getTopic.author" class="topic_detail">
 		<div>
 			<div class="topic_header">
 				<h2 class="topic_title">{{getTopic.title}}</h2>
 				<div class="topic_info">
-					<span>{{getTopic.author.loginname}}</span>
+					<a class="topic_author" v-link=""><img :src="getTopic.author.avatar_url">{{getTopic.author.loginname}}</a>
 					<span>{{getTopic.create_at | timeFormat}}</span>
 					<span>{{getTopic.reply_count}} / {{getTopic.visit_count}}</span>
 				</div>
@@ -97,6 +97,15 @@
 	      height: 20px;
 	      line-height: 20px;
 	      margin-top: 5px;
+	      .topic_author {
+	      	margin-right: 4px;
+	      	color: #999;
+	      	font-size: 10px;
+	      	img {
+	      		display: inline-block;
+	      		width: 20px;
+	      	}
+	      }
 	      span {
 	        margin-right: 4px;
 	        font-size: 10px;
