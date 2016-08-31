@@ -3,9 +3,9 @@ import Vue from 'vue';
 
 export const getNews = ({ dispatch }) => {
   dispatch(types.GET_NEWS);
-  return Vue.http.get('http://localhost:5001/news/latest')
+  return Vue.http.get('https://cnodejs.org/api/v1/topics')
     .then(res => {
-      dispatch(types.GET_NEWS_SUCCESS, res.data);
+      dispatch(types.GET_NEWS_SUCCESS, res.data.data);
     }, res => {
       dispatch(types.GET_NEWS_FAILURE, res);
     });

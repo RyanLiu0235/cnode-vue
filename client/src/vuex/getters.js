@@ -1,5 +1,3 @@
-export const getStories = state => state.stories;
+export const getTopicList = state => state.topicList;
 export const getCurDate = state => state.curDate;
-export const getTopic = state => {
-	return state.topic;
-};
+export const getTopic = state => state.topic;

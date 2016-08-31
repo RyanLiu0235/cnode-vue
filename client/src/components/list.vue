@@ -1,15 +1,10 @@
 <script>
-	import { getStories } from '../vuex/getters';
+	import { getTopicList } from '../vuex/getters';
 	import { getNews } from '../vuex/actions';
 	export default {
 		computed: {
-			getAllLists() {
+			getLists () {
 				return this.lists[0];
-			}
-		},
-		filters: {
-			formatSrcUrl (srcUrl) { 
-				return srcUrl.replace(/http\w{0,1}:\/\/p/g, 'http://localhost:5001/img/p');
 			}
 		},
 		created() {
@@ -17,7 +12,7 @@
 		},
 		vuex: {
 			getters: {
-				lists: getStories
+				lists: getTopicList
 			},
 			actions: {
 				getNews
@@ -28,43 +23,81 @@
 
 <template>
 	<div>
-		<ul>
-			<li v-for="item in getAllLists">
-				<a class="story_item" v-link="{path: '/t/'+item.id}">
-					<div class="story_img">
-						<img :src="item.images[0] | formatSrcUrl">
-					</div>
-					<p class="story_title">{{ item.title }}</p>
-				</a>
-			</li>
-		</ul>
+		<div class="topic_list">
+			<div class="topic_item" v-for="item in getLists">
+        <div class="user_avatar">
+          <img :src="item.author.avatar_url"/> 
+        </div> 
+        <a v-link="{ path: '/t' + item.id }" class="topic_title">
+        	<h4>{{ item.title }}</h4> 
+        </a> 
+        <div class="reply_view">
+          <span class="reply_number"> {{ item.reply_count }} </span> 
+          <span class="seperate">/</span>
+          <span class="view_number"> {{ item.visit_count}} </span> 
+        </div> 
+      </div>
+		</div>
 	</div>
 </template>
 
 <style lang="less">
-	ul {
-		padding: 20px;
-		li {
-			margin-top: 10px;
-			border-style: 1px #e0e0e0 solid;
-		}
-	}
-	.story_item {
+.topic_list {
+	margin-top: 10px;
+	background-color: #fff;
+	.topic_item {
 		display: flex;
-		.story_img {
-			width: 60px;
-			height: 60px;
-			margin-right: 10px;
-			img {
+		align-items: center;
+		height: 50px;
+		padding: 0 10px;
+		border-bottom: 1px #e0e0e0 solid;
+		box-sizing: border-box;
+		.user_avatar {
+			position: relative;
+			display: block;
+			width: 30px;
+			margin-right: 5px;
+			border-radius: 50%;
+			overflow: hidden;
+			&:after {
+				content: '';
 				display: block;
-				max-width: 100%;
+				width: 100%;
+				padding-top: 100%;
+			}
+			img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
 			}
 		}
-		.story_title {
+		.topic_title {
+			display: block;
 			flex: 1;
-			max-height: 60px;
+			height: 50px;
+			line-height: 50px;
+			margin-right: 5px;
 			color: #333;
+			font-weight: normal;
+			font-size: 14px;
 			overflow: hidden;
+			h4 {
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+			}
+		}
+		.reply_view {
+			font-size: 12px;
+			.reply_number {
+				color: #999;
+			}
+			.view_number {
+				color: #666;
+			}
 		}
 	}
+}
+
 </style>

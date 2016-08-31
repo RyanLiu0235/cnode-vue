@@ -8,16 +8,15 @@ Vue.use(Vuex);
 Vue.use(VueResource);
 
 const state = {
-  stories: [],
-  topic: {},
-  curDate: undefined
+  topicList: [],
+  topic: {}
 };
 
 const mutations = {
   [types.GET_NEWS](state) {},
   [types.GET_NEWS_SUCCESS](state, data) {
-    state.stories.push(data.stories);
-    state.curDate = data.date;
+
+    state.topicList.push(data);
   },
   [types.GET_NEWS_FAILURE](state, data) {},
   [types.GET_TOPIC](state) {},
