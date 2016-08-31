@@ -2,32 +2,32 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import VueResource from 'vue-resource';
 
-import {
-  GET_NEWS,
-  GET_HISTORIES,
-  GET_DATA_FAILURE,
-  GET_DATA_SUCCESS
-} from './mutations';
+import * as types from './mutations';
 
 Vue.use(Vuex);
 Vue.use(VueResource);
 
 const state = {
   stories: [],
+  topic: {},
   curDate: undefined
 };
 
 const mutations = {
-  GET_NEWS (state) {},
-  GET_DATA_SUCCESS (state, data) {
+  [types.GET_NEWS](state) {},
+  [types.GET_NEWS_SUCCESS](state, data) {
     state.stories.push(data.stories);
     state.curDate = data.date;
   },
-  GET_DATA_FAILURE (state, data) {}
+  [types.GET_NEWS_FAILURE](state, data) {},
+  [types.GET_TOPIC](state) {},
+  [types.GET_TOPIC_SUCCESS](state, data) {
+    state.topic = data;
+  },
+  [types.GET_TOPIC_FAILURE](state, data) {}
 };
 
 export default new Vuex.Store({
   state,
   mutations
 });
-

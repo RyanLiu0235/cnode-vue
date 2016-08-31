@@ -1,18 +1,14 @@
 <script>
-	import list from './list';
 	import store from '../vuex/store';
 
 	export default {
-		store,
-		components: {
-			list
-		}
+		store
 	}
 </script>
 
 <template>
 	<div>
-		<list></list>
+		<router-view></router-view>
 	</div>
 </template>
 

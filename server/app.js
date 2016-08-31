@@ -35,6 +35,24 @@ app.get('/img/:picAddress/:picId', function(req, res) {
 		});
 });
 
+/**
+ * 请求当前topic
+ */
+app.get('/news/:tid', function(req, res) {
+	var tid = req.params.tid;
+	superagent
+		.get('http://news-at.zhihu.com/api/4/news/' + tid)
+		.end(function(err, data) {
+			superagent
+				.get(data.body.css[0])
+				.end(function(err, css) {
+					delete data.body.css;
+					data.body.css = css.text;
+					res.json(data.body);
+				});
+		});
+});
+
 app.listen('5001', function() {
 	console.log('server is running at http://localhost:5001');
 })

@@ -1,5 +1,6 @@
 var path = require('path');
 
+var imgUrlReg = /https:\/\/pic\d{1}.zhimg.com\/\S{34}.jpg/;
 module.exports = {
   // 入口
   entry: './src/index',

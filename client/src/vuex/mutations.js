@@ -1,4 +1,7 @@
 export const GET_NEWS = 'GET_NEWS';
 export const GET_HISTORIES = 'GET_HISTORIES';
-export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
-export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
+export const GET_NEWS_FAILURE = 'GET_NEWS_FAILURE';
+export const GET_NEWS_SUCCESS = 'GET_NEWS_SUCCESS';
+export const GET_TOPIC = 'GET_TOPIC';
+export const GET_TOPIC_FAILURE = 'GET_TOPIC_FAILURE';
+export const GET_TOPIC_SUCCESS = 'GET_TOPIC_SUCCESS';
