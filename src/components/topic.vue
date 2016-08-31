@@ -1,11 +1,11 @@
 <script>
-	import { getCurTopic } from '../vuex/actions';
-	import { getTopic } from '../vuex/getters';
+	import { fetchTopic } from '../vuex/actions';
+	import { getTopicDetail } from '../vuex/getters';
 	import { timeFormat } from '../utils';
 	import '../public/less/markdown.less';
 	export default {
 		created() {
-			this.getCurTopic(this.$route.params.tid);
+			this.fetchTopic(this.$route.params.tid);
 		},
 		filters: {
 			timeFormat
@@ -17,10 +17,10 @@
 		},
 		vuex: {
 			actions: {
-				getCurTopic
+				fetchTopic
 			},
 			getters: {
-				topic: getTopic
+				topic: getTopicDetail
 			}
 		}
 	}

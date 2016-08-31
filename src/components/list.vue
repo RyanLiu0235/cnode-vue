@@ -1,6 +1,6 @@
 <script>
 	import { getTopicList } from '../vuex/getters';
-	import { getList } from '../vuex/actions';
+	import { fetchList } from '../vuex/actions';
 	export default {
 		computed: {
 			getLists () {
@@ -8,14 +8,14 @@
 			}
 		},
 		created() {
-			this.getList();
+			this.fetchList();
 		},
 		vuex: {
 			getters: {
 				lists: getTopicList
 			},
 			actions: {
-				getList
+				fetchList
 			}
 		}
 	}

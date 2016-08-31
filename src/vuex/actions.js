@@ -1,7 +1,7 @@
 import * as types from './mutations';
 import Vue from 'vue';
 
-export const getList = ({ dispatch }) => {
+export const fetchList = ({ dispatch }) => {
   dispatch(types.GET_LIST);
   return Vue.http.get('https://cnodejs.org/api/v1/topics')
     .then(res => {
@@ -12,7 +12,7 @@ export const getList = ({ dispatch }) => {
 };
 
 
-export const getCurTopic = ({ dispatch }, tid) => {
+export const fetchTopic = ({ dispatch }, tid) => {
   dispatch(types.GET_TOPIC);
   return Vue.http.get('https://cnodejs.org/api/v1/topic/' + tid)
     .then(res => {
@@ -21,14 +21,14 @@ export const getCurTopic = ({ dispatch }, tid) => {
       } else {
         dispatch(types.GET_TOPIC_FAILURE, res.data);
       }
-
     }, res => {
       dispatch(types.GET_TOPIC_FAILURE, res);
     });
 };
 
 
-export const getCurUser = ({ dispatch }, username) => {
+export const fetchUser = ({ dispatch }, username) => {
+  dispatch(types.GET_USER);
   return Vue.http.get('https://cnodejs.org/api/v1/user/' + username)
     .then(res => {
       if (res.data.success) {

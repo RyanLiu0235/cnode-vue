@@ -1,22 +1,22 @@
 <script>
-	import { getCurUser } from '../vuex/actions';
-	import { getUser } from '../vuex/getters';
+	import { fetchUser } from '../vuex/actions';
+	import { getUserDetail } from '../vuex/getters';
 
 	export default {
 		created() {
-			this.getCurUser(this.$route.params.username);
+			this.fetchUser(this.$route.params.username);
 		},
 		computed: {
-			getUserDetail() {
+			getUser() {
 				return this.user;
 			}
 		},
 		vuex: {
 			actions: {
-				getCurUser
+				fetchUser
 			},
 			getters: {
-				user: getUser
+				user: getUserDetail
 			}
 		}
 	}
