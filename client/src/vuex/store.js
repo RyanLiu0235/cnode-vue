@@ -13,12 +13,11 @@ const state = {
 };
 
 const mutations = {
-  [types.GET_NEWS](state) {},
-  [types.GET_NEWS_SUCCESS](state, data) {
-
+  [types.GET_LIST](state) {},
+  [types.GET_LIST_SUCCESS](state, data) {
     state.topicList.push(data);
   },
-  [types.GET_NEWS_FAILURE](state, data) {},
+  [types.GET_LIST_FAILURE](state, data) {},
   [types.GET_TOPIC](state) {},
   [types.GET_TOPIC_SUCCESS](state, data) {
     state.topic = data;
