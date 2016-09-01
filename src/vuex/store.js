@@ -10,7 +10,8 @@ Vue.use(VueResource);
 const state = {
   topicList: [],
   topic: {},
-  user: {}
+  user: {},
+  loginname: ''
 };
 
 const mutations = {
@@ -28,10 +29,18 @@ const mutations = {
   [types.GET_USER_SUCCESS](state, data) {
     state.user = data;
   },
-  [types.GET_USER_FAILURE](state, data) {}
+  [types.GET_USER_FAILURE](state, data) {},
+  [types.SIGN_IN](state) {},
+  [types.SIGN_IN_SUCCESS](state, data) {
+    state.loginname = data;
+  },
+  [types.SIGN_IN_FAILURE](state, data) {
+
+  }
 };
 
 export default new Vuex.Store({
   state,
   mutations
 });
+

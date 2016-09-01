@@ -31,7 +31,7 @@
 </script>
 
 <template>
-	<div>
+	<div v-if="!!getUser.loginname">
 		<global-header></global-header>
 		<div class="user_info panel">
 			<div class="panel_title">个人简介</div>
@@ -82,26 +82,6 @@
 </template>
 
 <style lang="less" scoped>
-.panel {
-	padding: 10px 5px;
-	margin: 10px 5px 0;
-	background-color: #fff;
-	.panel_title {
-		line-height: 30px;
-		font-size: 16px;
-		color: #333;
-		border-bottom: 1px #e0e0e0 solid;
-	}
-	.panel_empty {
-		line-height: 16px;
-		margin-top: 5px;
-		font-size: 12px;
-		color: #666;
-	}
-	.panel_row {
-		margin-top: 10px;
-	}
-}
 .user_info {
 	.user_row {
   	display: flex;

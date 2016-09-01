@@ -1,6 +1,11 @@
 <script>
+	import { getLoginName } from '../vuex/getters';
 	export default {
-
+		vuex: {
+			getters: {
+				loginname: getLoginName
+			}
+		}
 	}
 </script>
 
@@ -16,8 +21,8 @@
 				<a class="tab_item" v-link="{ path: '/tab/job', exact: true }">招聘</a>
 			</div>
 			<div class="login">
-				<a class="tab_item" v-link="{  }">登录</a>
-				<a class="tab_item" v-link="{  }">注册</a>
+				<a v-if="!loginname" class="tab_item" v-link="{ path: '/signin' }">登录</a>
+				<a v-if="loginname" v-link="{ path: '/u/' + loginname }">{{ loginname }}</a>
 			</div>
 		</div>
 	</div>
@@ -28,6 +33,21 @@
 		padding: 10px 5px;
 		margin: 10px 5px 0;
 		background-color: #fff;
+		.panel_title {
+			line-height: 30px;
+			font-size: 16px;
+			color: #333;
+			border-bottom: 1px #e0e0e0 solid;
+		}
+		.panel_empty {
+			line-height: 16px;
+			margin-top: 5px;
+			font-size: 12px;
+			color: #666;
+		}
+		.panel_row {
+			margin-top: 10px;
+		}
 	}
 	.header_container {
 		display: flex;

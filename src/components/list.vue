@@ -50,11 +50,6 @@
 </template>
 
 <style lang="less" scoped>
-.panel {
-	padding: 10px 5px;
-	margin: 10px 5px 0;
-	background-color: #fff;
-}
 .topic_list {
 	.topic_item {
 		display: flex;

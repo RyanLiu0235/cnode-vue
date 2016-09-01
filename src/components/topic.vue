@@ -76,11 +76,6 @@
 </template>
 
 <style lang="less" scoped>
-.panel {
-	padding: 10px 5px;
-	margin: 10px 5px 0;
-	background-color: #fff;
-}
 // 帖子详情
 .topic_detail {
   .topic_header {
@@ -139,7 +134,6 @@
   height: 40px;
   line-height: 40px;
   padding: 0 10px;
-  margin-top: 20px;
   font-size: 16px;
   color: #333;
   background-color: #fff;
