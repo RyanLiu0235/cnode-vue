@@ -23,25 +23,30 @@
 
 <template>
 	<div>
-		<div class="topic_list">
-			<div class="topic_item" v-for="item in getLists">
-        <div class="user_avatar">
-          <img :src="item.author.avatar_url"/> 
-        </div> 
-        <a v-link="{ path: '/t/' + item.id }" class="topic_title">
-        	<h4>{{ item.title }}</h4> 
-        </a> 
-        <div class="reply_view">
-          <span class="reply_number"> {{ item.reply_count }} </span> 
-          <span class="seperate">/</span>
-          <span class="view_number"> {{ item.visit_count}} </span> 
-        </div> 
-      </div>
+		<div class="panel">
+			<div class="topic_list">
+				<div class="topic_item" v-for="item in getLists">
+	        <a v-link="{ path: '/u/' + item.author.loginname }" class="user_avatar">
+	          <img :src="item.author.avatar_url"/> 
+	        </a> 
+	        <a v-link="{ path: '/t/' + item.id }" class="topic_title">
+	        	<h4>{{ item.title }}</h4> 
+	        </a> 
+	        <div class="reply_view">
+	          <span class="reply_number"> {{ item.reply_count }} </span> 
+	          <span class="seperate">/</span>
+	          <span class="view_number"> {{ item.visit_count}} </span> 
+	        </div> 
+	      </div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <style lang="less" scoped>
+.panel {
+	margin: 10px 5px 0;
+}
 .topic_list {
 	padding: 0 5px;
 	background-color: #fff;

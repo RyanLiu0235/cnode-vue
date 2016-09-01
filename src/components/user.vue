@@ -79,7 +79,7 @@
 <style lang="less" scoped>
 .panel {
 	padding: 10px 5px;
-	margin-top: 10px;
+	margin: 10px 5px 0;
 	background-color: #fff;
 	.panel_title {
 		line-height: 30px;
