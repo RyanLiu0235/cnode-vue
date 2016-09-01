@@ -11,6 +11,9 @@ export function routerConfig(router) {
     },
     '/u/:username': {
       component: (resolve) => require(['./components/user'], resolve)
+    },
+    '/signin': {
+      component: (resolve) => require(['./components/signin'], resolve)
     }
   });
 }
