@@ -1,6 +1,8 @@
 <script>
 	import { getTopicList } from '../vuex/getters';
 	import { fetchList } from '../vuex/actions';
+	import globalHeader from './globalHeader';
+
 	export default {
 		computed: {
 			getLists () {
@@ -17,12 +19,16 @@
 			actions: {
 				fetchList
 			}
+		},
+		components: {
+			globalHeader
 		}
 	}
 </script>
 
 <template>
 	<div>
+		<global-header></global-header>
 		<div class="panel">
 			<div class="topic_list">
 				<div class="topic_item" v-for="item in getLists">
@@ -45,11 +51,11 @@
 
 <style lang="less" scoped>
 .panel {
+	padding: 10px 5px;
 	margin: 10px 5px 0;
+	background-color: #fff;
 }
 .topic_list {
-	padding: 0 5px;
-	background-color: #fff;
 	.topic_item {
 		display: flex;
 		align-items: center;

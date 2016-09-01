@@ -3,6 +3,9 @@ export function routerConfig(router) {
     '/': {
       component: (resolve) => require(['./components/list'], resolve)
     },
+    '/tab/:tabType': {
+      component: (resolve) => require(['./components/list'], resolve)
+    },
     '/t/:tid': {
       component: (resolve) => require(['./components/topic'], resolve)
     },

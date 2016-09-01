@@ -2,6 +2,7 @@
 	import { fetchUser } from '../vuex/actions';
 	import { getUserDetail } from '../vuex/getters';
 	import { timeFormat } from '../utils';
+	import globalHeader from './globalHeader';
 
 	export default {
 		created() {
@@ -22,12 +23,16 @@
 			getters: {
 				user: getUserDetail
 			}
+		},
+		components: {
+			globalHeader
 		}
 	}
 </script>
 
 <template>
 	<div>
+		<global-header></global-header>
 		<div class="user_info panel">
 			<div class="panel_title">个人简介</div>
 			<div class="panel_container">
