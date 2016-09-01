@@ -45,7 +45,8 @@
 		<!-- 最近参与 -->
 		<div class="recent_topics panel">
 			<div class="panel_title">最近参与的话题</div>
-			<div class="topic_list">
+			<p class="panel_empty" v-if="getUser.recent_topics.length === 0">最近没有参与话题</p>
+			<div class="topic_list" v-if="getUser.recent_topics.length > 0">
 				<div class="topic_item" v-for="item in getUser.recent_topics">
 	        <div class="user_avatar">
 	          <img :src="item.author.avatar_url"/> 
@@ -60,8 +61,9 @@
 		<!-- 最近回复 -->
 		<div class="recent_replies panel">
 			<div class="panel_title">最近回复的话题</div>
-			<div class="topic_list">
-				<div class="topic_item" v-for="item in getUser.recent_topics">
+			<p class="panel_empty" v-if="getUser.recent_replies.length === 0">最近没有参与话题</p>
+			<div class="topic_list" v-if="getUser.recent_replies.length > 0">
+				<div class="topic_item" v-for="item in getUser.recent_replies">
 	        <div class="user_avatar">
 	          <img :src="item.author.avatar_url"/> 
 	        </div> 
@@ -82,7 +84,14 @@
 	.panel_title {
 		line-height: 30px;
 		font-size: 16px;
+		color: #333;
 		border-bottom: 1px #e0e0e0 solid;
+	}
+	.panel_empty {
+		line-height: 16px;
+		margin-top: 5px;
+		font-size: 12px;
+		color: #666;
 	}
 	.panel_row {
 		margin-top: 10px;
