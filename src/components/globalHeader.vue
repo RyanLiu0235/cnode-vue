@@ -14,7 +14,7 @@
 		<div class="header_container">
 			<a class="back_button" href="javascript:history.go(-1);">&lt;</a>
 			<div class="tab_list">
-				<a class="tab_item v-link-active" v-link="{ path: '/tab/all', exact: true }">全部</a>
+				<a class="tab_item" v-link="{ path: '/tab/all', exact: true }">全部</a>
 				<a class="tab_item" v-link="{ path: '/tab/good', exact: true }">精华</a>
 				<a class="tab_item" v-link="{ path: '/tab/share', exact: true }">分享</a>
 				<a class="tab_item" v-link="{ path: '/tab/ask', exact: true }">问答</a>
@@ -22,7 +22,7 @@
 			</div>
 			<div class="login">
 				<a v-if="!loginname" class="tab_item" v-link="{ path: '/signin' }">登录</a>
-				<a v-if="loginname" v-link="{ path: '/u/' + loginname }">{{ loginname }}</a>
+				<a v-if="loginname" class="tab_item user_name" v-link="{ path: '/u/' + loginname }">{{ loginname }}</a>
 			</div>
 		</div>
 	</div>
@@ -80,6 +80,13 @@
 			&.v-link-active {
 				color: #fff;
 				background-color: #ff3c3c;
+			}
+			&.user_name {
+				width: auto;
+				max-width: 100px;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueResource from 'vue-resource';
+import { saveLocalItem, getLocalItem } from '../localStore';
 
 import * as types from './mutations';
 
@@ -11,9 +12,9 @@ const state = {
   topicList: [],
   topic: {},
   user: {},
-  loginname: ''
+  loginname: getLocalItem('loginname') || ''
 };
-
+console.log(getLocalItem('loginname'))
 const mutations = {
   [types.GET_LIST](state) {},
   [types.GET_LIST_SUCCESS](state, data) {
@@ -33,6 +34,8 @@ const mutations = {
   [types.SIGN_IN](state) {},
   [types.SIGN_IN_SUCCESS](state, data) {
     state.loginname = data;
+    // 本地存储 loginname
+    saveLocalItem('loginname', data);
   },
   [types.SIGN_IN_FAILURE](state, data) {
 
