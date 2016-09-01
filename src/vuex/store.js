@@ -18,7 +18,7 @@ const state = {
 const mutations = {
   [types.GET_LIST](state) {},
   [types.GET_LIST_SUCCESS](state, data) {
-    state.topicList.push(data);
+    state.topicList = data;
   },
   [types.GET_LIST_FAILURE](state, data) {},
   [types.GET_TOPIC](state) {},

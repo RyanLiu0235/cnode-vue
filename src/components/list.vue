@@ -1,5 +1,4 @@
 <script>
-	import { getTopicList } from '../vuex/getters';
 	import { fetchList } from '../vuex/actions';
 	import globalHeader from './globalHeader';
 
@@ -9,18 +8,7 @@
 				topicList: []
 			}
 		},
-		computed: {
-			getLists () {
-				return this.lists[0];
-			}
-		},
-		created() {
-			this.fetchList();
-		},
 		vuex: {
-			getters: {
-				lists: getTopicList
-			},
 			actions: {
 				fetchList
 			}
@@ -46,7 +34,7 @@
 		<global-header></global-header>
 		<div class="panel">
 			<div class="topic_list">
-				<div class="topic_item" v-for="item in getLists">
+				<div class="topic_item" v-for="item in topicList">
 	        <a v-link="{ path: '/u/' + item.author.loginname }" class="user_avatar">
 	          <img :src="item.author.avatar_url"/> 
 	        </a> 

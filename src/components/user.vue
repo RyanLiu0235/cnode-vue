@@ -1,16 +1,12 @@
 <script>
 	import { fetchUser } from '../vuex/actions';
-	import { getUserDetail } from '../vuex/getters';
 	import { timeFormat } from '../utils';
 	import globalHeader from './globalHeader';
 
 	export default {
-		created() {
-			this.fetchUser(this.$route.params.username);
-		},
-		computed: {
-			getUser() {
-				return this.user;
+		data() {
+			return {
+				user: {}
 			}
 		},
 		filters: {
@@ -19,40 +15,47 @@
 		vuex: {
 			actions: {
 				fetchUser
-			},
-			getters: {
-				user: getUserDetail
 			}
 		},
 		components: {
 			globalHeader
-		}
+		},
+    route: {
+      data (transition) {
+        this.fetchUser(this.$route.params.username)
+          .then(res => {
+            transition.next({user: res});
+          }, res => {
+            return {user: {}}
+          });
+      }
+    }
 	}
 </script>
 
 <template>
-	<div v-if="!!getUser.loginname">
+	<div>
 		<global-header></global-header>
 		<div class="user_info panel">
 			<div class="panel_title">个人简介</div>
 			<div class="panel_container">
 				<div class="user_row panel_row">
 					<div class="user_avatar">
-						<img :src="getUser.avatar_url" />
+						<img :src="user.avatar_url" />
 					</div>
-					<div class="user_name">{{ getUser.loginname }}</div>
+					<div class="user_name">{{ user.loginname }}</div>
 				</div>
-				<div class="user_github panel_row">github名称：{{ getUser.githubUsername }}</div>
-				<div class="user_createdAt panel_row">注册于：{{ getUser.create_at | timeFormat }}</div>
-				<div class="user_score panel_row">积分：{{ getUser.score }}</div>
+				<div class="user_github panel_row">github名称：{{ user.githubUsername }}</div>
+				<div class="user_createdAt panel_row">注册于：{{ user.create_at | timeFormat }}</div>
+				<div class="user_score panel_row">积分：{{ user.score }}</div>
 			</div>
 		</div>
 		<!-- 最近参与 -->
 		<div class="recent_topics panel">
 			<div class="panel_title">最近参与的话题</div>
-			<p class="panel_empty" v-if="getUser.recent_topics.length === 0">最近没有参与话题</p>
-			<div class="topic_list" v-if="getUser.recent_topics.length > 0">
-				<div class="topic_item" v-for="item in getUser.recent_topics">
+			<p class="panel_empty" v-if="user.recent_topics.length === 0">最近没有参与话题</p>
+			<div class="topic_list" v-if="user.recent_topics.length > 0">
+				<div class="topic_item" v-for="item in user.recent_topics">
 	        <div class="user_avatar">
 	          <img :src="item.author.avatar_url"/> 
 	        </div> 
@@ -66,9 +69,9 @@
 		<!-- 最近回复 -->
 		<div class="recent_replies panel">
 			<div class="panel_title">最近回复的话题</div>
-			<p class="panel_empty" v-if="getUser.recent_replies.length === 0">最近没有参与话题</p>
-			<div class="topic_list" v-if="getUser.recent_replies.length > 0">
-				<div class="topic_item" v-for="item in getUser.recent_replies">
+			<p class="panel_empty" v-if="user.recent_replies.length === 0">最近没有参与话题</p>
+			<div class="topic_list" v-if="user.recent_replies.length > 0">
+				<div class="topic_item" v-for="item in user.recent_replies">
 	        <div class="user_avatar">
 	          <img :src="item.author.avatar_url"/> 
 	        </div> 

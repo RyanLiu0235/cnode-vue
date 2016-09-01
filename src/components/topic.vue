@@ -1,55 +1,58 @@
 <script>
 	import { fetchTopic } from '../vuex/actions';
-	import { getTopicDetail } from '../vuex/getters';
 	import { timeFormat } from '../utils';
 	import '../public/less/markdown.less';
 	import globalHeader from './globalHeader';
 
 	export default {
-		created() {
-			this.fetchTopic(this.$route.params.tid);
-		},
+    data() {
+      return {
+        topic: {}
+      }
+    },
 		filters: {
 			timeFormat
-		},
-		computed: {
-			getTopic() {
-				return this.topic;
-			}
 		},
 		vuex: {
 			actions: {
 				fetchTopic
-			},
-			getters: {
-				topic: getTopicDetail
 			}
 		},
 		components: {
 			globalHeader
-		}
+		},
+    route: {
+      data (transition) {
+        this.fetchTopic(this.$route.params.tid)
+          .then(res => {
+            transition.next({topic: res});
+          }, res => {
+            return {topic: {}}
+          });
+      }
+    }
 	}
 </script>
 
 <template>
-	<div v-if="!!getTopic.author">
+	<div>
 		<global-header></global-header>
 		<div class="panel topic_detail">
 			<div class="topic_header">
-				<h2 class="topic_title">{{getTopic.title}}</h2>
+				<h2 class="topic_title">{{topic.title}}</h2>
 				<div class="topic_info">
-					<a class="topic_author_link" v-link="{path: '/u/' + getTopic.author.loginname}">
+					<a class="topic_author_link" v-link="{path: '/u/' + topic.author.loginname}">
 						<div class="author_avatar">
-							<img :src="getTopic.author.avatar_url" />
+							<img :src="topic.author.avatar_url" />
 						</div>
-						<span class="topic_author">{{getTopic.author.loginname}}</span>
+						<span class="topic_author">{{topic.author.loginname}}</span>
 					</a>
-					<span>{{getTopic.create_at | timeFormat}}</span>
-					<span>{{getTopic.reply_count}} / {{getTopic.visit_count}}</span>
+					<span>{{topic.create_at | timeFormat}}</span>
+					<span>{{topic.reply_count}} / {{topic.visit_count}}</span>
 				</div>
 			</div>
 			<div class="topic_body">
-				<div v-html="getTopic.content"></div>
+				<div v-html="topic.content"></div>
 			</div>
 		</div>
 		<div class="panel comment_detail">
