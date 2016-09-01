@@ -27,7 +27,7 @@
 			</div>
 			<div class="login">
 				<a v-if="!loginname" class="tab_item" v-link="{ path: '/signin' }">登录</a>
-				<a v-if="loginname" class="tab_item user_name" v-link="{ path: '/u/' + loginname }">{{ loginname }}</a>
+				<a v-if="loginname" class="tab_item user_name" v-link="{ path: '/user/' + loginname }">{{ loginname }}</a>
 			</div>
 		</div>
 	</div>

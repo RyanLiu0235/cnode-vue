@@ -41,7 +41,7 @@
 			<div class="topic_header">
 				<h2 class="topic_title">{{topic.title}}</h2>
 				<div class="topic_info">
-					<a class="topic_author_link" v-link="{path: '/u/' + topic.author.loginname}">
+					<a class="topic_author_link" v-link="{path: '/user/' + topic.author.loginname}">
 						<div class="author_avatar">
 							<img :src="topic.author.avatar_url" />
 						</div>
@@ -60,7 +60,7 @@
 			<div class="comment_list">
 				<div class="comment_item" v-for="reply in topic.replies">	
 					<div class="user_info">
-						<a class="user_link" v-link="{path: '/u/' + reply.author.loginname}">
+						<a class="user_link" v-link="{path: '/user/' + reply.author.loginname}">
 							<div class="user_avatar">
 								<img :src="reply.author.avatar_url" />
 							</div>

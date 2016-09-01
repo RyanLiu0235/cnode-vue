@@ -59,7 +59,7 @@
 	        <div class="user_avatar">
 	          <img :src="item.author.avatar_url"/> 
 	        </div> 
-	        <a v-link="{ path: '/t/' + item.id }" class="topic_title">
+	        <a v-link="{ path: '/topic/' + item.id }" class="topic_title">
 	        	<h4>{{ item.title }}</h4> 
 	        </a> 
 	        <div class="reply_view">{{ item.last_reply_at | timeFormat }}</div> 
@@ -75,7 +75,7 @@
 	        <div class="user_avatar">
 	          <img :src="item.author.avatar_url"/> 
 	        </div> 
-	        <a v-link="{ path: '/t/' + item.id }" class="topic_title">
+	        <a v-link="{ path: '/topic/' + item.id }" class="topic_title">
 	        	<h4>{{ item.title }}</h4> 
 	        </a> 
 	        <div class="reply_view">{{ item.last_reply_at | timeFormat }}</div> 

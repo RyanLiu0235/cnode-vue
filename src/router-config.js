@@ -6,10 +6,10 @@ export function routerConfig(router) {
     '/tab/:tabType': {
       component: (resolve) => require(['./components/list'], resolve)
     },
-    '/t/:tid': {
+    '/topic/:tid': {
       component: (resolve) => require(['./components/topic'], resolve)
     },
-    '/u/:username': {
+    '/user/:username': {
       component: (resolve) => require(['./components/user'], resolve)
     },
     '/signin': {

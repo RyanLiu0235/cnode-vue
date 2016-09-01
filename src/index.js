@@ -1,7 +1,7 @@
 import App from './components/App';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import {routerConfig} from './router-config';
+import { routerConfig } from './router-config';
 
 Vue.config.debug = true;
 
