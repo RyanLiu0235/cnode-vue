@@ -41,7 +41,7 @@
 	</div>
 </template>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .topic_list {
 	padding: 0 5px;
 	background-color: #fff;

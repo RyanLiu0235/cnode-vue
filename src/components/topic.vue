@@ -69,7 +69,7 @@
 	</div>
 </template>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 	// 帖子详情
 	.topic_detail {
 	  padding: 5px;
