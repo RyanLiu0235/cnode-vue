@@ -4,13 +4,15 @@ import Vue from 'vue';
 /**
  * 获取首页列表数据
  */
-export const fetchList = ({ dispatch }) => {
+export const fetchList = ({ dispatch }, tabType = 'all') => {
   dispatch(types.GET_LIST);
-  return Vue.http.get('https://cnodejs.org/api/v1/topics')
+  return Vue.http.get('https://cnodejs.org/api/v1/topics', {tab: tabType})
     .then(res => {
       dispatch(types.GET_LIST_SUCCESS, res.data.data);
+      return Promise.resolve(res.data.data);
     }, res => {
       dispatch(types.GET_LIST_FAILURE, res);
+      return Promise.reject(res);
     });
 };
 
