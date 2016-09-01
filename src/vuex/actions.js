@@ -4,9 +4,9 @@ import Vue from 'vue';
 /**
  * 获取首页列表数据
  */
-export const fetchList = ({ dispatch }, tabType = 'all') => {
+export const fetchList = ({ dispatch }, tabType = 'all', page = 1) => {
   dispatch(types.GET_LIST);
-  return Vue.http.get('https://cnodejs.org/api/v1/topics', {tab: tabType})
+  return Vue.http.get('https://cnodejs.org/api/v1/topics', { tab: tabType, page: page })
     .then(res => {
       dispatch(types.GET_LIST_SUCCESS, res.data.data);
       return Promise.resolve(res.data.data);
@@ -49,7 +49,7 @@ export const fetchUser = ({ dispatch }, username) => {
  */
 export const signin = ({ dispatch }, accesstoken) => {
   dispatch(types.SIGN_IN);
-  return Vue.http.post('https://cnodejs.org/api/v1/accesstoken', {accesstoken: accesstoken})
+  return Vue.http.post('https://cnodejs.org/api/v1/accesstoken', { accesstoken: accesstoken })
     .then(res => {
       dispatch(types.SIGN_IN_SUCCESS, res.data.loginname);
       return Promise.resolve(res.data.loginname);

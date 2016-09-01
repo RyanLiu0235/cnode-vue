@@ -1,25 +1,14 @@
 <script>
 	import { fetchList } from '../vuex/actions';
-	import { getLoginName, getTopicList } from '../vuex/getters';
+	import { getLoginName } from '../vuex/getters';
 
 	export default {
-		data: function(transition) {
-			console.log(transition)
-			this.fetchList(this.$route.params.tabType)
-				.then(res => {
-					transition.next({topicList: res});
-				});
-		},
-		created() {
-			
-		},
 		vuex: {
 			actions: {
 				fetchList
 			},
 			getters: {
-				loginname: getLoginName,
-				topicList: getTopicList
+				loginname: getLoginName
 			}
 		}
 	}

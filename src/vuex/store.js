@@ -14,7 +14,7 @@ const state = {
   user: {},
   loginname: getLocalItem('loginname') || ''
 };
-console.log(getLocalItem('loginname'))
+
 const mutations = {
   [types.GET_LIST](state) {},
   [types.GET_LIST_SUCCESS](state, data) {
@@ -46,4 +46,3 @@ export default new Vuex.Store({
   state,
   mutations
 });
-

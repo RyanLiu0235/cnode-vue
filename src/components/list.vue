@@ -4,6 +4,11 @@
 	import globalHeader from './globalHeader';
 
 	export default {
+		data() {
+			return {
+				topicList: []
+			}
+		},
 		computed: {
 			getLists () {
 				return this.lists[0];
@@ -22,6 +27,16 @@
 		},
 		components: {
 			globalHeader
+		},
+		route: {
+			data (transition) {
+				this.fetchList(this.$route.params.tabType)
+					.then(res => {
+						transition.next({topicList: res});
+					}, res => {
+						return {topicList: []}
+					});
+			}
 		}
 	}
 </script>
