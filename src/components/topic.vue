@@ -1,6 +1,6 @@
 <script>
 	import { fetchTopic } from '../vuex/actions';
-	import { timeFormat } from '../utils';
+	import { timeFormat, prefixUrl } from '../utils';
 	import '../public/less/markdown.less';
   import globalHeader from './globalHeader';
   import toTop from './toTop';
@@ -33,6 +33,17 @@
         this.fetchTopic(this.$route.params.tid)
           .then(res => {
             transition.next({topic: res});
+
+            // 将页面上的通过 @ 方式形成的用户详情页链接转换成 #!/user/somebody 的格式
+            this.$nextTick(() => {
+              let mLink = document.querySelectorAll('a');
+              mLink.forEach((link, index) => {
+                var _url = prefixUrl(link.getAttribute('href'));
+                if (!!_url) {
+                  link.setAttribute('href', _url);
+                }
+              });
+            });
           }, res => {
             return {topic: {}}
           });
