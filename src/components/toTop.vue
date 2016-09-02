@@ -5,7 +5,7 @@
 				showButton: false
 			}
 		},
-		ready : function() {
+		ready() {
 			window.addEventListener('scroll', () => {
 				if(window.scrollY > 150){
 					this.showButton = true;
@@ -23,24 +23,20 @@
 </script>
 
 <template>
-	<div @click="returnTop" v-show="showButton" class="toTop">返回顶部</div>
+	<div @click="returnTop" v-show="showButton" class="toTop"></div>
 </template>
 
 <style lang="less" scoped>
 	.toTop {
     position: fixed;
-    bottom: 20px;
+    bottom: 17px;
     right: 20px;
     z-index: 100;
-    width: 50px;
-    height: 50px;
-    line-height: 15px;
-    padding: 10px 10px;
-    color: #fff;
-    font-size: 12px;
-    background-color: #f64c4c;
-    text-align: center;
-    border-radius: 5px;
-    box-sizing: border-box;
+    width: 44px;
+    height: 44px;
+    background-image: url('../public/img/top.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
 	}
 </style>

@@ -5,6 +5,7 @@
 	import '../public/less/markdown.less';
   import globalHeader from './globalHeader';
   import toTop from './toTop';
+  import loading from './loading';
 
 	export default {
     data() {
@@ -15,7 +16,8 @@
             loginname: ''
           },
           replies: []
-        }
+        },
+        loading: false
       }
     },
 		filters: {
@@ -23,7 +25,6 @@
 		},
     methods: {
       handleCollectTopic(e) {
-
         // 登录拦截
         if (!this.accesstoken) {
           return alert('请先登录');
@@ -39,6 +40,26 @@
             console.log(res);
             alert('收藏失败，请稍后重试');
           })
+      },
+      loadMore() {
+        let clientHeight = document.body.clientHeight;
+        let scrollHeight = document.body.scrollTop;
+        let screenHeight = window.screen.height;
+
+        // 如果滑到底了，加载
+        if (clientHeight < screenHeight + scrollHeight ) {
+          // 如果正在加载，则不继续请求
+          if (this.loading) return;
+          this.loading = true;
+          this.fetchList(this.tabType, ++this.page)
+            .then(res => {
+              this.topicList = this.topicList.concat(res);
+              this.loading = false;
+            }, res => {
+              alert('加载失败，请稍后重试');
+              this.loading = false;
+            });
+        }
       }
     },
 		vuex: {
@@ -50,14 +71,15 @@
       }
 		},
 		components: {
-			globalHeader, toTop
+			globalHeader, toTop, loading
 		},
     route: {
       data (transition) {
+        this.loading = true;
         this.fetchTopic(this.$route.params.tid)
           .then(res => {
             transition.next({topic: res});
-
+            this.loading = false;
             // 将页面上的通过 @ 方式形成的用户详情页链接转换成 #!/user/somebody 的格式
             this.$nextTick(() => {
               let mLink = document.querySelectorAll('a');
@@ -79,47 +101,52 @@
 <template>
 	<div>
 		<global-header></global-header>
-		<div class="panel topic_detail">
-			<div class="topic_header">
-				<h2 class="topic_title">{{topic.title}}</h2>
-				<div class="topic_info">
-  				<div class="info">
-            <a class="topic_author_link" v-link="{path: '/user/' + topic.author.loginname}">
-              <div class="author_avatar">
-                <img :src="topic.author.avatar_url" />
-              </div>
-              <span class="topic_author">{{topic.author.loginname}}</span>
-            </a>
-            <span>{{topic.create_at | timeFormat}}</span>
-            <span>{{topic.reply_count}} / {{topic.visit_count}}</span>    
+    <div v-show="loading" class="panel">
+      <loading loading="loading"></loading>
+    </div>
+  	<div v-show="!loading">
+     <div class="panel topic_detail">
+        <div class="topic_header">
+          <h2 class="topic_title">{{topic.title}}</h2>
+          <div class="topic_info">
+            <div class="info">
+              <a class="topic_author_link" v-link="{path: '/user/' + topic.author.loginname}">
+                <div class="author_avatar">
+                  <img :src="topic.author.avatar_url" />
+                </div>
+                <span class="topic_author">{{topic.author.loginname}}</span>
+              </a>
+              <span>{{topic.create_at | timeFormat}}</span>
+              <span>{{topic.reply_count}} / {{topic.visit_count}}</span>    
+            </div>
+            <span class="collect_button" @click="handleCollectTopic">收藏</span>
           </div>
-          <span class="collect_button" @click="handleCollectTopic">收藏</span>
-				</div>
-			</div>
-			<div class="topic_body">
-				<div v-html="topic.content"></div>
-			</div>
-		</div>
-		<div class="panel comment_detail">
-			<div class="comment_header">{{topic.replies.length > 0 ? '评论列表' : '暂无评论'}}</div> 
-			<div class="comment_list">
-				<div class="comment_item" v-for="reply in topic.replies">	
-					<div class="user_info">
-						<a class="user_link" v-link="{path: '/user/' + reply.author.loginname}">
-							<div class="user_avatar">
-								<img :src="reply.author.avatar_url" />
-							</div>
-							<div class="user_name">{{reply.author.loginname}}</div>
-						</a>
-						<div class="time_stamp">{{reply.create_at | timeFormat }}</div>
-						<div class="floor">{{$index + 1}}楼</div>
-					</div>
-					<div class="comment_content">
-						<div v-html="reply.content"></div>
-					</div>
-				</div>
-			</div>
-		</div>
+        </div>
+        <div class="topic_body">
+          <div v-html="topic.content"></div>
+        </div>
+      </div>
+      <div class="panel comment_detail">
+        <div class="comment_header">{{topic.replies.length > 0 ? '评论列表' : '暂无评论'}}</div> 
+        <div class="comment_list">
+          <div class="comment_item" v-for="reply in topic.replies"> 
+            <div class="user_info">
+              <a class="user_link" v-link="{path: '/user/' + reply.author.loginname}">
+                <div class="user_avatar">
+                  <img :src="reply.author.avatar_url" />
+                </div>
+                <div class="user_name">{{reply.author.loginname}}</div>
+              </a>
+              <div class="time_stamp">{{reply.create_at | timeFormat }}</div>
+              <div class="floor">{{$index + 1}}楼</div>
+            </div>
+            <div class="comment_content">
+              <div v-html="reply.content"></div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
     <to-top></to-top>
 	</div>
 </template>

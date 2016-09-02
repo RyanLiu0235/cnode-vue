@@ -3,6 +3,7 @@
 	import { timeFormat } from '../utils';
 	import globalHeader from './globalHeader';
   import toTop from './toTop';
+  import loading from './loading';
 
 	export default {
 		data() {
@@ -10,11 +11,34 @@
 				user: {
 					recent_topics: [],
 					recent_replies: []
-				}
+				},
+				loading: false
 			}
 		},
 		filters: {
 			timeFormat
+		},
+		methods: {
+			loadMore() {
+				let clientHeight = document.body.clientHeight;
+				let scrollHeight = document.body.scrollTop;
+				let screenHeight = window.screen.height;
+
+				// 如果滑到底了，加载
+				if (clientHeight < screenHeight + scrollHeight ) {
+					// 如果正在加载，则不继续请求
+					if (this.loading) return;
+					this.loading = true;
+					this.fetchList(this.tabType, ++this.page)
+						.then(res => {
+							this.topicList = this.topicList.concat(res);
+							this.loading = false;
+						}, res => {
+							alert('加载失败，请稍后重试');
+							this.loading = false;
+						});
+				}
+			}
 		},
 		vuex: {
 			actions: {
@@ -22,12 +46,14 @@
 			}
 		},
 		components: {
-			globalHeader, toTop
+			globalHeader, toTop, loading
 		},
     route: {
       data (transition) {
+      	this.loading = true;
         this.fetchUser(this.$route.params.username)
           .then(res => {
+          	this.loading = false;
             transition.next({user: res});
           }, res => {
             return {user: {}}
@@ -40,50 +66,55 @@
 <template>
 	<div>
 		<global-header></global-header>
-		<div class="user_info panel">
-			<div class="panel_title">个人简介</div>
-			<div class="panel_container">
-				<div class="user_row panel_row">
-					<div class="user_avatar">
-						<img :src="user.avatar_url" />
+		<div v-show="loading" class="panel">
+			<loading loading="loading"></loading>
+		</div>
+		<div v-show="!loading">
+			<div class="user_info panel">
+				<div class="panel_title">个人简介</div>
+				<div class="panel_container">
+					<div class="user_row panel_row">
+						<div class="user_avatar">
+							<img :src="user.avatar_url" />
+						</div>
+						<div class="user_name">{{ user.loginname }}</div>
 					</div>
-					<div class="user_name">{{ user.loginname }}</div>
+					<div class="user_github panel_row">github名称：{{ user.githubUsername }}</div>
+					<div class="user_createdAt panel_row">注册于：{{ user.create_at | timeFormat }}</div>
+					<div class="user_score panel_row">积分：{{ user.score }}</div>
 				</div>
-				<div class="user_github panel_row">github名称：{{ user.githubUsername }}</div>
-				<div class="user_createdAt panel_row">注册于：{{ user.create_at | timeFormat }}</div>
-				<div class="user_score panel_row">积分：{{ user.score }}</div>
 			</div>
-		</div>
-		<!-- 最近参与 -->
-		<div class="recent_topics panel">
-			<div class="panel_title">最近参与的话题</div>
-			<p class="panel_empty" v-if="user.recent_topics.length === 0">最近没有参与话题</p>
-			<div class="topic_list" v-if="user.recent_topics.length > 0">
-				<div class="topic_item" v-for="item in user.recent_topics">
-	        <div class="user_avatar">
-	          <img :src="item.author.avatar_url"/> 
-	        </div> 
-	        <a v-link="{ path: '/topic/' + item.id }" class="topic_title">
-	        	<h4>{{ item.title }}</h4> 
-	        </a> 
-	        <div class="reply_view">{{ item.last_reply_at | timeFormat }}</div> 
-	      </div>
+			<!-- 最近参与 -->
+			<div class="recent_topics panel">
+				<div class="panel_title">最近参与的话题</div>
+				<p class="panel_empty" v-if="user.recent_topics.length === 0">最近没有参与话题</p>
+				<div class="topic_list" v-if="user.recent_topics.length > 0">
+					<div class="topic_item" v-for="item in user.recent_topics">
+		        <div class="user_avatar">
+		          <img :src="item.author.avatar_url"/> 
+		        </div> 
+		        <a v-link="{ path: '/topic/' + item.id }" class="topic_title">
+		        	<h4>{{ item.title }}</h4> 
+		        </a> 
+		        <div class="reply_view">{{ item.last_reply_at | timeFormat }}</div> 
+		      </div>
+				</div>
 			</div>
-		</div>
-		<!-- 最近回复 -->
-		<div class="recent_replies panel">
-			<div class="panel_title">最近回复的话题</div>
-			<p class="panel_empty" v-if="user.recent_replies.length === 0">最近没有参与话题</p>
-			<div class="topic_list" v-if="user.recent_replies.length > 0">
-				<div class="topic_item" v-for="item in user.recent_replies">
-	        <div class="user_avatar">
-	          <img :src="item.author.avatar_url"/> 
-	        </div> 
-	        <a v-link="{ path: '/topic/' + item.id }" class="topic_title">
-	        	<h4>{{ item.title }}</h4> 
-	        </a> 
-	        <div class="reply_view">{{ item.last_reply_at | timeFormat }}</div> 
-	      </div>
+			<!-- 最近回复 -->
+			<div class="recent_replies panel">
+				<div class="panel_title">最近回复的话题</div>
+				<p class="panel_empty" v-if="user.recent_replies.length === 0">最近没有参与话题</p>
+				<div class="topic_list" v-if="user.recent_replies.length > 0">
+					<div class="topic_item" v-for="item in user.recent_replies">
+		        <div class="user_avatar">
+		          <img :src="item.author.avatar_url"/> 
+		        </div> 
+		        <a v-link="{ path: '/topic/' + item.id }" class="topic_title">
+		        	<h4>{{ item.title }}</h4> 
+		        </a> 
+		        <div class="reply_view">{{ item.last_reply_at | timeFormat }}</div> 
+		      </div>
+				</div>
 			</div>
 		</div>
 		<to-top></to-top>

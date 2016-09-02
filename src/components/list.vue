@@ -2,27 +2,7 @@
 	import { fetchList } from '../vuex/actions';
 	import globalHeader from './globalHeader';
   import toTop from './toTop';
-
-	  function loadMore() {
-			let clientHeight = document.body.clientHeight;
-			let scrollHeight = document.body.scrollTop;
-			let screenHeight = window.screen.height;
-
-			// 如果滑到底了，加载
-			if (clientHeight < screenHeight + scrollHeight) {
-				// 如果正在加载，则不继续请求
-				if (self.loading) return;
-				self.loading = true;
-				self.fetchList(self.tabType, ++self.page)
-					.then(res => {
-						self.topicList = self.topicList.concat(res);
-						self.loading = false;
-					}, res => {
-						alert('加载失败，请稍后重试');
-						self.loading = false;
-					});
-			}
-		}
+  import loading from './loading';
 
 	export default {
 		data() {
@@ -45,7 +25,7 @@
 				let screenHeight = window.screen.height;
 
 				// 如果滑到底了，加载
-				if (clientHeight < screenHeight + scrollHeight) {
+				if (clientHeight < screenHeight + scrollHeight ) {
 					// 如果正在加载，则不继续请求
 					if (this.loading) return;
 					this.loading = true;
@@ -65,10 +45,13 @@
 			window.removeEventListener('scroll', this.loadMore);
 		},
 		components: {
-			globalHeader, toTop
+			globalHeader, toTop, loading
 		},
 		route: {
 			data (transition) {
+				// 切换标签的时候，将上一页的数据清空
+				this.topicList = [];
+				this.loading = true;
 				// 切换标签（all, good, share, job, ask）重新绑定函数
 				window.removeEventListener('scroll', this.loadMore);
 				this.page = 1;
@@ -76,6 +59,7 @@
 				this.fetchList(this.tabType)
 					.then(res => {
 						transition.next({topicList: res});
+						this.loading = false;
 						this.$nextTick(() => {
 							window.addEventListener('scroll', this.loadMore, false);
 						})
@@ -106,73 +90,66 @@
 	        </div> 
 	      </div>
 			</div>
-			<div class="loading" v-show="loading">加载中...</div>
+			<loading loading="loading"></loading>
 		</div>
 		<to-top></to-top>
 	</div>
 </template>
 
 <style lang="less" scoped>
-.topic_list {
-	.topic_item {
-		display: flex;
-		align-items: center;
-		height: 50px;
-		padding: 0 10px;
-		border-bottom: 1px #e0e0e0 solid;
-		box-sizing: border-box;
-		.user_avatar {
-			position: relative;
-			display: block;
-			width: 30px;
-			margin-right: 5px;
-			border-radius: 50%;
-			overflow: hidden;
-			&:after {
-				content: '';
-				display: block;
-				width: 100%;
-				padding-top: 100%;
-			}
-			img {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-			}
-		}
-		.topic_title {
-			display: block;
-			flex: 1;
+	.topic_list {
+		.topic_item {
+			display: flex;
+			align-items: center;
 			height: 50px;
-			line-height: 50px;
-			margin-right: 5px;
-			color: #333;
-			font-weight: normal;
-			font-size: 14px;
-			overflow: hidden;
-			h4 {
-				text-overflow: ellipsis;
-				white-space: nowrap;
+			padding: 0 10px;
+			border-bottom: 1px #e0e0e0 solid;
+			box-sizing: border-box;
+			.user_avatar {
+				position: relative;
+				display: block;
+				width: 30px;
+				margin-right: 5px;
+				border-radius: 50%;
 				overflow: hidden;
+				&:after {
+					content: '';
+					display: block;
+					width: 100%;
+					padding-top: 100%;
+				}
+				img {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+				}
 			}
-		}
-		.reply_view {
-			font-size: 12px;
-			.reply_number {
-				color: #999;
+			.topic_title {
+				display: block;
+				flex: 1;
+				height: 50px;
+				line-height: 50px;
+				margin-right: 5px;
+				color: #333;
+				font-weight: normal;
+				font-size: 14px;
+				overflow: hidden;
+				h4 {
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+				}
 			}
-			.view_number {
-				color: #666;
+			.reply_view {
+				font-size: 12px;
+				.reply_number {
+					color: #999;
+				}
+				.view_number {
+					color: #666;
+				}
 			}
 		}
 	}
-}
-.loading {
-	height: 40px;
-	line-height: 40px;
-	font-size: 14px;
-	color: #333;
-	text-align: center;
-}
 </style>

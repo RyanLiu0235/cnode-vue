@@ -17,7 +17,7 @@
 <template>
 	<div class="panel">
 		<div class="header_container">
-			<a class="back_button" href="javascript:history.go(-1);">&lt;</a>
+			<a class="back_button" href="javascript:history.go(-1);"></a>
 			<div class="tab_list">
 				<a class="tab_item" v-link="{ path: '/tab/all', exact: true }">全部</a>
 				<a class="tab_item" v-link="{ path: '/tab/good', exact: true }">精华</a>
@@ -61,11 +61,13 @@
 		justify-content: space-between;
 		.back_button {
 			display: block;
-			width: 34px;
-			height: 34px;
-			line-height: 34px;
-			text-align: center;
-			color: #333;
+			width: 30px;
+			height: 30px;
+			margin: 0 10px;
+			background-image: url('../public/img/back.png');
+	    background-repeat: no-repeat;
+	    background-position: center center;
+	    background-size: cover;
 		}
 		.tab_list {
 			display: flex;
