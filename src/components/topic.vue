@@ -1,5 +1,6 @@
 <script>
-	import { fetchTopic } from '../vuex/actions';
+	import { fetchTopic, collectTopic } from '../vuex/actions';
+  import { getAccessToken } from '../vuex/getters';
 	import { timeFormat, prefixUrl } from '../utils';
 	import '../public/less/markdown.less';
   import globalHeader from './globalHeader';
@@ -20,10 +21,33 @@
 		filters: {
 			timeFormat
 		},
+    methods: {
+      handleCollectTopic(e) {
+
+        // 登录拦截
+        if (!this.accesstoken) {
+          return alert('请先登录');
+        }
+        this.collectTopic(this.accesstoken, this.topic.id)
+          .then(res => {
+            console.log(res);
+            if (res) {
+              e.target.innerText = '已收藏';
+              e.target.style.backgroundColor = '#96d754';
+            }
+          }, res => {
+            console.log(res);
+            alert('收藏失败，请稍后重试');
+          })
+      }
+    },
 		vuex: {
 			actions: {
-				fetchTopic
-			}
+				fetchTopic, collectTopic
+			},
+      getters: {
+        accesstoken: getAccessToken
+      }
 		},
 		components: {
 			globalHeader, toTop
@@ -59,14 +83,17 @@
 			<div class="topic_header">
 				<h2 class="topic_title">{{topic.title}}</h2>
 				<div class="topic_info">
-					<a class="topic_author_link" v-link="{path: '/user/' + topic.author.loginname}">
-						<div class="author_avatar">
-							<img :src="topic.author.avatar_url" />
-						</div>
-						<span class="topic_author">{{topic.author.loginname}}</span>
-					</a>
-					<span>{{topic.create_at | timeFormat}}</span>
-					<span>{{topic.reply_count}} / {{topic.visit_count}}</span>
+  				<div class="info">
+            <a class="topic_author_link" v-link="{path: '/user/' + topic.author.loginname}">
+              <div class="author_avatar">
+                <img :src="topic.author.avatar_url" />
+              </div>
+              <span class="topic_author">{{topic.author.loginname}}</span>
+            </a>
+            <span>{{topic.create_at | timeFormat}}</span>
+            <span>{{topic.reply_count}} / {{topic.visit_count}}</span>    
+          </div>
+          <span class="collect_button" @click="handleCollectTopic">收藏</span>
 				</div>
 			</div>
 			<div class="topic_body">
@@ -113,9 +140,14 @@
     .topic_info {
     	display: flex;
     	align-items: center;
+      justify-content: space-between;
       height: 34px;
       line-height: 34px;
       margin-top: 5px;
+      .info {
+        display: flex;
+        align-items: center;
+      }
       .topic_author_link {
       	display: flex;
       	align-items: center;
@@ -136,11 +168,21 @@
 	      }
       }
       span {
+        display: block;
+        height: 28px;
+        line-height: 28px;
         margin-right: 4px;
         font-size: 10px;
         color: #999;
+        text-align: center;
         &:nth-child(2) {
           color: #666;
+        }
+        &.collect_button {
+          width: 50px;
+          background-color: #63c200;
+          color: #fff;
+          border-radius: 5px;
         }
       }
     }
