@@ -3,6 +3,27 @@
 	import globalHeader from './globalHeader';
   import toTop from './toTop';
 
+	  function loadMore() {
+			let clientHeight = document.body.clientHeight;
+			let scrollHeight = document.body.scrollTop;
+			let screenHeight = window.screen.height;
+
+			// 如果滑到底了，加载
+			if (clientHeight < screenHeight + scrollHeight) {
+				// 如果正在加载，则不继续请求
+				if (self.loading) return;
+				self.loading = true;
+				self.fetchList(self.tabType, ++self.page)
+					.then(res => {
+						self.topicList = self.topicList.concat(res);
+						self.loading = false;
+					}, res => {
+						alert('加载失败，请稍后重试');
+						self.loading = false;
+					});
+			}
+		}
+
 	export default {
 		data() {
 			return {
@@ -17,11 +38,8 @@
 				fetchList
 			}
 		},
-		ready() {
-			let self = this;
-			window.addEventListener('scroll', loadMore, false);
-
-			function loadMore() {
+		methods: {
+			loadMore() {
 				let clientHeight = document.body.clientHeight;
 				let scrollHeight = document.body.scrollTop;
 				let screenHeight = window.screen.height;
@@ -29,29 +47,39 @@
 				// 如果滑到底了，加载
 				if (clientHeight < screenHeight + scrollHeight) {
 					// 如果正在加载，则不继续请求
-					if (self.loading) return;
-					self.loading = true;
-					self.fetchList(self.tabType, ++self.page)
+					if (this.loading) return;
+					this.loading = true;
+					this.fetchList(this.tabType, ++this.page)
 						.then(res => {
-							self.topicList = self.topicList.concat(res);
-							self.loading = false;
+							this.topicList = this.topicList.concat(res);
+							this.loading = false;
 						}, res => {
 							alert('加载失败，请稍后重试');
-							self.loading = false;
+							this.loading = false;
 						});
 				}
 			}
+		},
+		// 离开帖子列表页之后，移除绑定的加载函数
+		beforeDestroy() {
+			console.log('remove')
+			window.removeEventListener('scroll', this.loadMore);
 		},
 		components: {
 			globalHeader, toTop
 		},
 		route: {
 			data (transition) {
+				// 切换标签（all, good, share, job, ask）重新绑定函数
+				window.removeEventListener('scroll', this.loadMore);
 				this.page = 1;
 				this.tabType = this.$route.params.tabType;
 				this.fetchList(this.tabType)
 					.then(res => {
 						transition.next({topicList: res});
+						this.$nextTick(() => {
+							window.addEventListener('scroll', this.loadMore, false);
+						})
 					}, res => {
 						return {topicList: []}
 					});
