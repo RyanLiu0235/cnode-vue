@@ -18,3 +18,25 @@ $ npm run start
 ```
 
 然后页面会自动弹出来。
+
+## 截图
+
+* 帖子列表页
+
+![帖子列表页](./screenshots/list.jpg)
+
+* 帖子详情页
+
+![帖子详情页](./screenshots/topic.jpg)
+
+* 用户详情页
+
+![用户详情页](./screenshots/user.jpg)
+
+* 登录页
+
+![登录页](./screenshots/login.jpg)
+
+* loading
+
+![loading](./screenshots/loading.jpg)
