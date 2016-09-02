@@ -84,7 +84,7 @@
 			color: #333;
 			&.v-link-active {
 				color: #fff;
-				background-color: #ff3c3c;
+				background-color: #f64c4c;
 			}
 			&.user_name {
 				width: auto;

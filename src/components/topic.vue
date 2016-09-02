@@ -2,7 +2,8 @@
 	import { fetchTopic } from '../vuex/actions';
 	import { timeFormat } from '../utils';
 	import '../public/less/markdown.less';
-	import globalHeader from './globalHeader';
+  import globalHeader from './globalHeader';
+  import toTop from './toTop';
 
 	export default {
     data() {
@@ -25,7 +26,7 @@
 			}
 		},
 		components: {
-			globalHeader
+			globalHeader, toTop
 		},
     route: {
       data (transition) {
@@ -81,6 +82,7 @@
 				</div>
 			</div>
 		</div>
+    <to-top></to-top>
 	</div>
 </template>
 

@@ -83,6 +83,6 @@
 	margin: 5px auto 0;
 	text-align: center;
 	color: #fff;
-	background-color: #ff3c3c;
+	background-color: #f64c4c;
 }
 </style>
