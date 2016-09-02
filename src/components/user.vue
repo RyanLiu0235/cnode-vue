@@ -2,6 +2,7 @@
 	import { fetchUser } from '../vuex/actions';
 	import { timeFormat } from '../utils';
 	import globalHeader from './globalHeader';
+  import toTop from './toTop';
 
 	export default {
 		data() {
@@ -21,7 +22,7 @@
 			}
 		},
 		components: {
-			globalHeader
+			globalHeader, toTop
 		},
     route: {
       data (transition) {
@@ -84,6 +85,8 @@
 	        <div class="reply_view">{{ item.last_reply_at | timeFormat }}</div> 
 	      </div>
 			</div>
+		</div>
+		<to-top></to-top>
 	</div>
 </template>
 

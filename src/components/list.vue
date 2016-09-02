@@ -1,6 +1,7 @@
 <script>
 	import { fetchList } from '../vuex/actions';
 	import globalHeader from './globalHeader';
+  import toTop from './toTop';
 
 	export default {
 		data() {
@@ -14,7 +15,7 @@
 			}
 		},
 		components: {
-			globalHeader
+			globalHeader, toTop
 		},
 		route: {
 			data (transition) {
@@ -49,6 +50,7 @@
 	      </div>
 			</div>
 		</div>
+		<to-top></to-top>
 	</div>
 </template>
 
