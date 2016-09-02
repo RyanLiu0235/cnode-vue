@@ -6,7 +6,10 @@
 	export default {
 		data() {
 			return {
-				topicList: []
+				topicList: [],
+				loading: false,
+				page: 1,
+				tabType: ''
 			}
 		},
 		vuex: {
@@ -14,12 +17,39 @@
 				fetchList
 			}
 		},
+		ready() {
+			let self = this;
+			window.addEventListener('scroll', loadMore, false);
+
+			function loadMore() {
+				let clientHeight = document.body.clientHeight;
+				let scrollHeight = document.body.scrollTop;
+				let screenHeight = window.screen.height;
+
+				// 如果滑到底了，加载
+				if (clientHeight < screenHeight + scrollHeight) {
+					// 如果正在加载，则不继续请求
+					if (self.loading) return;
+					self.loading = true;
+					self.fetchList(self.tabType, ++self.page)
+						.then(res => {
+							self.topicList = self.topicList.concat(res);
+							self.loading = false;
+						}, res => {
+							alert('加载失败，请稍后重试');
+							self.loading = false;
+						});
+				}
+			}
+		},
 		components: {
 			globalHeader, toTop
 		},
 		route: {
 			data (transition) {
-				this.fetchList(this.$route.params.tabType)
+				this.page = 1;
+				this.tabType = this.$route.params.tabType;
+				this.fetchList(this.tabType)
 					.then(res => {
 						transition.next({topicList: res});
 					}, res => {
@@ -49,6 +79,7 @@
 	        </div> 
 	      </div>
 			</div>
+			<div class="loading" v-show="loading">加载中...</div>
 		</div>
 		<to-top></to-top>
 	</div>
@@ -110,5 +141,11 @@
 		}
 	}
 }
-
+.loading {
+	height: 40px;
+	line-height: 40px;
+	font-size: 14px;
+	color: #333;
+	text-align: center;
+}
 </style>
