@@ -76,8 +76,9 @@
 		}
 		.tab_item {
 			display: block;
-			width: 40px;
+			width: 36px;
 			height: 34px;
+			padding: 0 3px;
 			line-height: 34px;
 			text-align: center;
 			font-size: 14px;

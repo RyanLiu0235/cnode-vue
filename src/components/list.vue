@@ -62,7 +62,6 @@
 		},
 		// 离开帖子列表页之后，移除绑定的加载函数
 		beforeDestroy() {
-			console.log('remove')
 			window.removeEventListener('scroll', this.loadMore);
 		},
 		components: {
