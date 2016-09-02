@@ -6,7 +6,10 @@
 	export default {
 		data() {
 			return {
-				user: {}
+				user: {
+					recent_topics: [],
+					recent_replies: []
+				}
 			}
 		},
 		filters: {

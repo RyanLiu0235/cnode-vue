@@ -7,7 +7,13 @@
 	export default {
     data() {
       return {
-        topic: {}
+        topic: {
+          author: {
+            avatar_url: '',
+            loginname: ''
+          },
+          replies: []
+        }
       }
     },
 		filters: {
