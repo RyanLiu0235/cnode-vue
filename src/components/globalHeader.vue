@@ -1,6 +1,6 @@
 <script>
 	import { fetchList } from '../vuex/actions';
-	import { getLoginName } from '../vuex/getters';
+	import { getLoginName, getAvatarUrl } from '../vuex/getters';
 
 	export default {
 		vuex: {
@@ -8,7 +8,8 @@
 				fetchList
 			},
 			getters: {
-				loginname: getLoginName
+				loginname: getLoginName,
+				avatar_url: getAvatarUrl
 			}
 		}
 	}
@@ -27,7 +28,9 @@
 			</div>
 			<div class="login">
 				<a v-if="!loginname" class="tab_item" v-link="{ path: '/signin' }">登录</a>
-				<a v-if="loginname" class="tab_item user_name" v-link="{ path: '/user/' + loginname }">{{ loginname }}</a>
+				<a v-if="loginname" class=" user_name" v-link="{ path: '/user/' + loginname }">
+					<img :src="avatar_url">
+				</a>
 			</div>
 		</div>
 	</div>
@@ -39,10 +42,14 @@
 		margin: 10px 5px 0;
 		background-color: #fff;
 		.panel_title {
+			padding: 0 10px;
 			line-height: 30px;
 			font-size: 16px;
 			color: #333;
 			border-bottom: 1px #e0e0e0 solid;
+		}
+		.panel_container {
+			padding: 0 10px;
 		}
 		.panel_empty {
 			line-height: 16px;
@@ -73,9 +80,6 @@
 			display: flex;
 			flex: 1;
 		}
-		.login {
-			display: flex;
-		}
 		.tab_item {
 			display: block;
 			width: 36px;
@@ -89,12 +93,18 @@
 				color: #fff;
 				background-color: #f64c4c;
 			}
-			&.user_name {
-				width: auto;
-				max-width: 100px;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				white-space: nowrap;
+		}
+		.login {
+			margin-right: 10px;
+		}
+		.user_name {
+			display: block;
+			width: 30px;
+			border-radius: 50%;
+			overflow: hidden;
+			img {
+				display: block;
+				width: 100%;
 			}
 		}
 	}

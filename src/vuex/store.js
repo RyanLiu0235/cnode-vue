@@ -12,8 +12,11 @@ const state = {
   topicList: [],
   topic: {},
   user: {},
-  loginname: getLocalItem('loginname') || '',
-  accesstoken: getLocalItem('accesstoken') || '',
+  loginUser: {
+    loginname: getLocalItem('loginname') || '',
+    accesstoken: getLocalItem('accesstoken') || '',
+    avatar_url: getLocalItem('avatar_url') || ''
+  },
   collectTopics: []
 };
 
@@ -37,12 +40,12 @@ const mutations = {
   [types.GET_USER_FAILURE](state) {},
 
   [types.SIGN_IN](state) {},
-  [types.SIGN_IN_SUCCESS](state, loginname, accesstoken) {
-    state.loginname = loginname;
-    state.accesstoken = accesstoken;
+  [types.SIGN_IN_SUCCESS](state, user) {
+    state.loginUser = user;
     // 本地存储 loginname
-    saveLocalItem('loginname', loginname);
-    saveLocalItem('accesstoken', accesstoken);
+    saveLocalItem('loginname', user.loginname);
+    saveLocalItem('accesstoken', user.accesstoken);
+    saveLocalItem('avatar_url', user.avatar_url);
   },
   [types.SIGN_IN_FAILURE](state) {},
 
@@ -51,7 +54,7 @@ const mutations = {
 
   },
   [types.COLLECT_TOPIC_FAILURE](state) {},
-  
+
   [types.DECOLLECT_TOPIC](state) {},
   [types.DECOLLECT_TOPIC_SUCCESS](state, data) {
 

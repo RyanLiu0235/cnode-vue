@@ -55,7 +55,8 @@ export const signin = ({ dispatch }, accesstoken) => {
   dispatch(types.SIGN_IN);
   return Vue.http.post('https://cnodejs.org/api/v1/accesstoken', { accesstoken: accesstoken })
     .then(res => {
-      dispatch(types.SIGN_IN_SUCCESS, res.data.loginname, accesstoken);
+      // 登录成功，本地缓存用户名与accessToken
+      dispatch(types.SIGN_IN_SUCCESS, { loginname: res.data.loginname, accesstoken: accesstoken, avatar_url: res.data.avatar_url });
       return Promise.resolve(res.data.loginname);
     }, res => {
       dispatch(types.SIGN_IN_FAILURE);
@@ -67,19 +68,13 @@ export const signin = ({ dispatch }, accesstoken) => {
  * 收藏帖子
  */
 export const collectTopic = ({ dispatch }, accesstoken, topic_id) => {
-  console.log(accesstoken, topic_id)
   dispatch(types.COLLECT_TOPIC);
-  return Vue.http.post('https://cnodejs.org/api/v1/topic_collect/collect', {accesstoken: accesstoken, topic_id: topic_id})
+  return Vue.http.post('https://cnodejs.org/api/v1/topic_collect/collect', { accesstoken: accesstoken, topic_id: topic_id })
     .then(res => {
       dispatch(types.COLLECT_TOPIC_SUCCESS, res.data.success);
-      return Promise.resolve(res);
+      return Promise.resolve(res.data.success);
     }, res => {
       dispatch(types.COLLECT_TOPIC_FAILURE);
       return Promise.reject(res);
     })
 }
-
-
-
-
-

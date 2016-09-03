@@ -105,7 +105,7 @@
       <loading loading="loading"></loading>
     </div>
   	<div v-show="!loading">
-     <div class="panel topic_detail">
+      <div class="panel topic_detail">
         <div class="topic_header">
           <h2 class="topic_title">{{topic.title}}</h2>
           <div class="topic_info">
@@ -127,7 +127,7 @@
         </div>
       </div>
       <div class="panel comment_detail">
-        <div class="comment_header">{{topic.replies.length > 0 ? '评论列表' : '暂无评论'}}</div> 
+        <div class="panel_title">{{topic.replies.length > 0 ? '评论列表' : '暂无评论'}}</div> 
         <div class="comment_list">
           <div class="comment_item" v-for="reply in topic.replies"> 
             <div class="user_info">
@@ -152,90 +152,78 @@
 </template>
 
 <style lang="less" scoped>
-// 帖子详情
-.topic_detail {
-  .topic_header {
-    padding: 10px;
-    border-bottom: 1px #e0e0e0 solid;
-    background-color: #fff;
-    .topic_title {
-      max-height: 40px;
-      line-height: 20px;
-      font-size: 18px;
-      overflow: hidden;
-    }
-    .topic_info {
-    	display: flex;
-    	align-items: center;
-      justify-content: space-between;
-      height: 34px;
-      line-height: 34px;
-      margin-top: 5px;
-      .info {
-        display: flex;
-        align-items: center;
+  // 帖子详情
+  .topic_detail {
+    .topic_header {
+      padding: 10px;
+      border-bottom: 1px #e0e0e0 solid;
+      background-color: #fff;
+      .topic_title {
+        max-height: 40px;
+        line-height: 20px;
+        font-size: 18px;
+        overflow: hidden;
       }
-      .topic_author_link {
+      .topic_info {
       	display: flex;
       	align-items: center;
-        .author_avatar {
-        	width: 30px;
-	        margin-right: 10px;
-	        border-radius: 50%;
-	        overflow: hidden;
+        justify-content: space-between;
+        height: 34px;
+        line-height: 34px;
+        margin-top: 5px;
+        .info {
+          display: flex;
+          align-items: center;
         }
-        img {
-        	display: block;
-          width: 100%;
+        .topic_author_link {
+        	display: flex;
+        	align-items: center;
+          .author_avatar {
+          	width: 30px;
+  	        margin-right: 10px;
+  	        border-radius: 50%;
+  	        overflow: hidden;
+          }
+          img {
+          	display: block;
+            width: 100%;
+          }
+          .topic_author {
+  	        margin-right: 5px;
+  	        color: #666;
+  	      }
         }
-        .topic_author {
-	        margin-right: 5px;
-	        color: #666;
-	      }
-      }
-      span {
-        display: block;
-        height: 28px;
-        line-height: 28px;
-        margin-right: 4px;
-        font-size: 12px;
-        color: #999;
-        text-align: center;
-        &:nth-child(2) {
-          color: #666;
-        }
-        &.collect_button {
-          width: 50px;
-          background-color: #63c200;
-          color: #fff;
-          border-radius: 5px;
+        span {
+          display: block;
+          height: 28px;
+          line-height: 28px;
+          margin-right: 4px;
+          font-size: 12px;
+          color: #999;
+          text-align: center;
+          &:nth-child(2) {
+            color: #666;
+          }
+          &.collect_button {
+            width: 50px;
+            background-color: #63c200;
+            color: #fff;
+            border-radius: 5px;
+          }
         }
       }
     }
+    .topic_body {
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #fff;
+    }
   }
-  .topic_body {
-    padding: 10px;
-    margin-top: 10px;
-    background-color: #fff;
-  }
-}
 
-.comment_header {
-  height: 40px;
-  line-height: 40px;
-  padding: 0 10px;
-  font-size: 16px;
-  color: #333;
-  background-color: #fff;
-}
-
-// 帖子评论
-.comment_list {
-  margin-top: 10px;
+  // 帖子评论
   .comment_item {
-    margin-top: 5px;
     padding: 10px;
-    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
     background-color: #fff;
     .user_info {
       display: flex;
@@ -277,5 +265,4 @@
       }
     }
   }
-}
 </style>

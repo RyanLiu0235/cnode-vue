@@ -106,22 +106,13 @@
 			border-bottom: 1px #e0e0e0 solid;
 			box-sizing: border-box;
 			.user_avatar {
-				position: relative;
 				display: block;
 				width: 30px;
 				margin-right: 5px;
 				border-radius: 50%;
 				overflow: hidden;
-				&:after {
-					content: '';
-					display: block;
-					width: 100%;
-					padding-top: 100%;
-				}
 				img {
-					position: absolute;
-					top: 0;
-					left: 0;
+					display: block;
 					width: 100%;
 				}
 			}
