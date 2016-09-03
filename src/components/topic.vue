@@ -190,7 +190,6 @@
         }
         .topic_author {
 	        margin-right: 5px;
-	        font-size: 10px;
 	        color: #666;
 	      }
       }
@@ -199,7 +198,7 @@
         height: 28px;
         line-height: 28px;
         margin-right: 4px;
-        font-size: 10px;
+        font-size: 12px;
         color: #999;
         text-align: center;
         &:nth-child(2) {

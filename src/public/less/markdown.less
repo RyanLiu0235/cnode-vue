@@ -96,4 +96,126 @@
   hr {
     margin-top: 20px;
   }
+  table {
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    tr {
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid #ccc;
+      background-color: #fff;
+    }
+    th,
+    td {
+      margin: 0;
+      padding: 6px 13px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+  }
+  code,
+  pre {
+    padding: 0 3px 2px;
+    font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+    font-size: 12px;
+    color: #d14;
+    background-color: #f7f7f9;
+    border-radius: 3px;
+  }
+  pre.prettyprint {
+    font-size: 14px;
+    border-radius: 0;
+    padding: 0 15px;
+    border: none;
+    margin: 20px -10px;
+    border-width: 1px 0;
+    background: #f7f7f7;
+  }
+  .pln {
+    color: #000
+  }
+  @media screen {
+    .str {
+      color: #080
+    }
+    .kwd {
+      color: #008
+    }
+    .com {
+      color: #800
+    }
+    .typ {
+      color: #606
+    }
+    .lit {
+      color: #066
+    }
+    .clo,
+    .opn,
+    .pun {
+      color: #660
+    }
+    .tag {
+      color: #008
+    }
+    .atn {
+      color: #606
+    }
+    .atv {
+      color: #080
+    }
+    .dec,
+    .var {
+      color: #606
+    }
+    .fun {
+      color: red
+    }
+  }
+  @media print,
+  projection {
+    .kwd,
+    .tag,
+    .typ {
+      font-weight: 700
+    }
+    .str {
+      color: #060
+    }
+    .kwd {
+      color: #006
+    }
+    .com {
+      color: #600;
+      font-style: italic
+    }
+    .typ {
+      color: #404
+    }
+    .lit {
+      color: #044
+    }
+    .clo,
+    .opn,
+    .pun {
+      color: #440
+    }
+    .tag {
+      color: #006
+    }
+    .atn {
+      color: #404
+    }
+    .atv {
+      color: #060
+    }
+  }
+  li.L1,
+  li.L3,
+  li.L5,
+  li.L7,
+  li.L9 {
+    background: #eee
+  }
 }
