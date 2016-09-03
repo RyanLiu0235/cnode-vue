@@ -1,6 +1,5 @@
 <script>
 	import { fetchList } from '../vuex/actions';
-	import globalHeader from './globalHeader';
   import toTop from './toTop';
   import loading from './loading';
 
@@ -45,7 +44,7 @@
 			window.removeEventListener('scroll', this.loadMore);
 		},
 		components: {
-			globalHeader, toTop, loading
+			toTop, loading
 		},
 		route: {
 			data (transition) {
@@ -73,7 +72,6 @@
 
 <template>
 	<div>
-		<global-header></global-header>
 		<div class="panel">
 			<div class="topic_list">
 				<div class="topic_item" v-for="item in topicList">
@@ -84,9 +82,9 @@
 	        	<h4>{{ item.title }}</h4> 
 	        </a> 
 	        <div class="reply_view">
-	          <span class="reply_number"> {{ item.reply_count }} </span> 
+	          <span class="reply_number">{{ item.reply_count }}</span> 
 	          <span class="seperate">/</span>
-	          <span class="view_number"> {{ item.visit_count}} </span> 
+	          <span class="view_number">{{ item.visit_count}}</span> 
 	        </div> 
 	      </div>
 			</div>

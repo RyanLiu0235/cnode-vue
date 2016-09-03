@@ -55,13 +55,21 @@ export const signin = ({ dispatch }, accesstoken) => {
   dispatch(types.SIGN_IN);
   return Vue.http.post('https://cnodejs.org/api/v1/accesstoken', { accesstoken: accesstoken })
     .then(res => {
-      // 登录成功，本地缓存用户名与accessToken
+      // 登录成功，本地缓存用户名与accessToken，以及用户头像
       dispatch(types.SIGN_IN_SUCCESS, { loginname: res.data.loginname, accesstoken: accesstoken, avatar_url: res.data.avatar_url });
       return Promise.resolve(res.data.loginname);
     }, res => {
       dispatch(types.SIGN_IN_FAILURE);
       return Promise.reject(res.data.error_msg);
     });
+}
+
+/**
+ * 登出
+ */
+export const signout = ({ dispatch }) => {
+  dispatch(types.SIGN_OUT);
+  return Promise.resolve(true);
 }
 
 /**

@@ -3,7 +3,6 @@
   import { getAccessToken } from '../vuex/getters';
 	import { timeFormat, prefixUrl } from '../utils';
 	import '../public/less/markdown.less';
-  import globalHeader from './globalHeader';
   import toTop from './toTop';
   import loading from './loading';
 
@@ -31,13 +30,11 @@
         }
         this.collectTopic(this.accesstoken, this.topic.id)
           .then(res => {
-            console.log(res);
             if (res) {
               e.target.innerText = '已收藏';
               e.target.style.backgroundColor = '#96d754';
             }
           }, res => {
-            console.log(res);
             alert('收藏失败，请稍后重试');
           })
       },
@@ -71,7 +68,7 @@
       }
 		},
 		components: {
-			globalHeader, toTop, loading
+			toTop, loading
 		},
     route: {
       data (transition) {
@@ -100,7 +97,7 @@
 
 <template>
 	<div>
-		<global-header></global-header>
+		<global-header :loginname="loginname" :avatar_url="avatar_url"></global-header>
     <div v-show="loading" class="panel">
       <loading loading="loading"></loading>
     </div>

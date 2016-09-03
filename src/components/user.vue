@@ -1,7 +1,7 @@
 <script>
-	import { fetchUser } from '../vuex/actions';
+	import { fetchUser, signout } from '../vuex/actions';
+	import { getLoginName } from '../vuex/getters';
 	import { timeFormat } from '../utils';
-	import globalHeader from './globalHeader';
   import toTop from './toTop';
   import loading from './loading';
 
@@ -12,46 +12,42 @@
 					recent_topics: [],
 					recent_replies: []
 				},
-				loading: false
+				loading: false,
+				pageUser: ''
 			}
 		},
 		filters: {
 			timeFormat
 		},
 		methods: {
-			loadMore() {
-				let clientHeight = document.body.clientHeight;
-				let scrollHeight = document.body.scrollTop;
-				let screenHeight = window.screen.height;
-
-				// 如果滑到底了，加载
-				if (clientHeight < screenHeight + scrollHeight ) {
-					// 如果正在加载，则不继续请求
-					if (this.loading) return;
-					this.loading = true;
-					this.fetchList(this.tabType, ++this.page)
-						.then(res => {
-							this.topicList = this.topicList.concat(res);
-							this.loading = false;
-						}, res => {
-							alert('加载失败，请稍后重试');
-							this.loading = false;
-						});
-				}
+			handleLogout() {
+				this.signout()
+					.then(res => {
+						this.$router.go('/');
+					});
+			}
+		},
+		computed: {
+			isSelf() {
+				return this.pageUser === this.loginname;
 			}
 		},
 		vuex: {
 			actions: {
-				fetchUser
+				fetchUser, signout
+			},
+			getters: {
+				loginname: getLoginName
 			}
 		},
 		components: {
-			globalHeader, toTop, loading
+			toTop, loading
 		},
     route: {
       data (transition) {
       	this.loading = true;
-        this.fetchUser(this.$route.params.username)
+      	this.pageUser = this.$route.params.username;
+        this.fetchUser(this.pageUser)
           .then(res => {
           	this.loading = false;
             transition.next({user: res});
@@ -65,7 +61,6 @@
 
 <template>
 	<div>
-		<global-header></global-header>
 		<div v-show="loading" class="panel">
 			<loading loading="loading"></loading>
 		</div>
@@ -78,6 +73,7 @@
 							<img :src="user.avatar_url" />
 						</div>
 						<div class="user_name">{{ user.loginname }}</div>
+						<div class="logout_button" v-if="isSelf" @click="handleLogout">登出</div>
 					</div>
 					<div class="user_github panel_row">github名称：{{ user.githubUsername }}</div>
 					<div class="user_createdAt panel_row">注册于：{{ user.create_at | timeFormat }}</div>
@@ -122,91 +118,100 @@
 </template>
 
 <style lang="less" scoped>
-.user_info {
-	.user_row {
-  	display: flex;
-  	align-items: center;
-  }
-  .user_avatar {
-    width: 60px;
-    height: 60px;
-    margin-right: 10px;
-    border-radius: 50%;
-    overflow: hidden;
-    img {
-    	display: block;
-      width: 100%;
-    }
-  }
-  .user_name {
-    margin-right: 5px;
-    font-size: 14px;
-    color: #666;
-  }
-  .user_github {
-  	font-size: 16px;
-  }
-  .user_createdAt {
-  	font-size: 12px;
-  }
-  .user_score {
-  	font-size: 12px;
-  }
-}
-.topic_list {
-	background-color: #fff;
-	.topic_item {
-		display: flex;
-		align-items: center;
-		height: 50px;
-		padding: 0 10px;
-		border-bottom: 1px #e0e0e0 solid;
-		box-sizing: border-box;
-		.user_avatar {
-			position: relative;
-			display: block;
-			width: 30px;
-			margin-right: 5px;
-			border-radius: 50%;
-			overflow: hidden;
-			&:after {
-				content: '';
-				display: block;
-				width: 100%;
-				padding-top: 100%;
-			}
-			img {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-			}
-		}
-		.topic_title {
-			display: block;
-			flex: 1;
+	.user_info {
+		.user_row {
+	  	display: flex;
+	  	align-items: center;
+	  }
+	  .user_avatar {
+	    width: 60px;
+	    height: 60px;
+	    margin-right: 10px;
+	    border-radius: 50%;
+	    overflow: hidden;
+	    img {
+	    	display: block;
+	      width: 100%;
+	    }
+	  }
+	  .user_name {
+	  	flex: 1;
+	    margin-right: 5px;
+	    font-size: 14px;
+	    color: #666;
+	  }
+	  .logout_button {
+	    padding: 0 5px;
+		  line-height: 22px;
+		  color: #fff;
+		  font-size: 14px;
+		  border-radius: 2px;
+		  background-color: #f64c4c;
+	  }
+	  .user_github {
+	  	font-size: 16px;
+	  }
+	  .user_createdAt {
+	  	font-size: 12px;
+	  }
+	  .user_score {
+	  	font-size: 12px;
+	  }
+	}
+	.topic_list {
+		background-color: #fff;
+		.topic_item {
+			display: flex;
+			align-items: center;
 			height: 50px;
-			line-height: 50px;
-			margin-right: 5px;
-			color: #333;
-			font-weight: normal;
-			font-size: 14px;
-			overflow: hidden;
-			h4 {
-				text-overflow: ellipsis;
-				white-space: nowrap;
+			padding: 0 10px;
+			border-bottom: 1px #e0e0e0 solid;
+			box-sizing: border-box;
+			.user_avatar {
+				position: relative;
+				display: block;
+				width: 30px;
+				margin-right: 5px;
+				border-radius: 50%;
 				overflow: hidden;
+				&:after {
+					content: '';
+					display: block;
+					width: 100%;
+					padding-top: 100%;
+				}
+				img {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+				}
 			}
-		}
-		.reply_view {
-			font-size: 12px;
-			.reply_number {
-				color: #999;
+			.topic_title {
+				display: block;
+				flex: 1;
+				height: 50px;
+				line-height: 50px;
+				margin-right: 5px;
+				color: #333;
+				font-weight: normal;
+				font-size: 14px;
+				overflow: hidden;
+				h4 {
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+				}
 			}
-			.view_number {
-				color: #666;
+			.reply_view {
+				font-size: 12px;
+				.reply_number {
+					color: #999;
+				}
+				.view_number {
+					color: #666;
+				}
 			}
 		}
 	}
-}
 </style>

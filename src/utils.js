@@ -24,7 +24,7 @@ exports.timeFormat = function(date) {
 }
 
 /**
- * 给 cnodejs.org 返回的markdown里用户详情页链接增加 #!/ 前缀
+ * 给 cnodejs.org 返回的markdown里用户详情页链接增加 #! 前缀
  * @param  {String} url 用户链接
  * @return {String}     增加了#!/前缀的链接地址
  */
@@ -34,4 +34,18 @@ exports.prefixUrl = function(url) {
   if (!reg.test(url)) return false;
 
   return '#!' + url;
+}
+
+
+
+exports.saveLocalItem = function(key, value) {
+  sessionStorage.setItem(key, value);
+}
+
+exports.getLocalItem = function(key) {
+  return sessionStorage.getItem(key);
+}
+
+exports.removeLocalItem = function(key) {
+  return sessionStorage.removeItem(key);
 }

@@ -7,6 +7,7 @@ export const GET_TOPIC_SUCCESS = 'GET_TOPIC_SUCCESS';
 export const GET_USER = 'GET_USER';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_FAILURE = 'GET_USER_FAILURE';
+export const SIGN_OUT = 'SIGN_OUT';
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
 export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE';

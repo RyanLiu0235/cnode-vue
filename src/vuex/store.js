@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueResource from 'vue-resource';
-import { saveLocalItem, getLocalItem } from '../localStore';
+import { saveLocalItem, getLocalItem, removeLocalItem } from '../utils';
 
 import * as types from './mutations';
 
@@ -42,7 +42,7 @@ const mutations = {
   [types.SIGN_IN](state) {},
   [types.SIGN_IN_SUCCESS](state, user) {
     state.loginUser = user;
-    // 本地存储 loginname
+    // 本地存储
     saveLocalItem('loginname', user.loginname);
     saveLocalItem('accesstoken', user.accesstoken);
     saveLocalItem('avatar_url', user.avatar_url);
@@ -59,7 +59,15 @@ const mutations = {
   [types.DECOLLECT_TOPIC_SUCCESS](state, data) {
 
   },
-  [types.DECOLLECT_TOPIC_FAILURE](state) {}
+  [types.DECOLLECT_TOPIC_FAILURE](state) {},
+
+  [types.SIGN_OUT](state) {
+    delete state.loginUser;
+    // 删除本地存储
+    removeLocalItem('loginname');
+    removeLocalItem('accesstoken');
+    removeLocalItem('avatar_url');
+  }
 };
 
 export default new Vuex.Store({

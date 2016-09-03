@@ -1,17 +1,7 @@
 <script>
-	import { fetchList } from '../vuex/actions';
-	import { getLoginName, getAvatarUrl } from '../vuex/getters';
 
 	export default {
-		vuex: {
-			actions: {
-				fetchList
-			},
-			getters: {
-				loginname: getLoginName,
-				avatar_url: getAvatarUrl
-			}
-		}
+		props: ['loginname', 'avatar_url']
 	}
 </script>
 

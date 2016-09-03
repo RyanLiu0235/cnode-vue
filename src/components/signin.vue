@@ -1,15 +1,12 @@
 <script>
-	import globalHeader from './globalHeader';
 	import { signin } from '../vuex/actions';
 
 	export default {
 		data() {
 			return {
+				fromPath: '',
 				accesstoken: ''
 			}
-		},
-		components: {
-			globalHeader
 		},
 		vuex: {
 			actions: {
@@ -18,11 +15,12 @@
 		},
 		methods: {
 			handleSignin() {
+				// console.log(this.accesstoken)
 				this.signin(this.accesstoken)
 					.then(res => {
 						this.$router.go('/');
 					}, res => {
-						alert(res);
+						console.log(res);
 						this.accesstoken = '';
 					});
 			}
@@ -32,7 +30,6 @@
 
 <template>
 	<div>
-		<global-header></global-header>
 		<div class="panel">
 			<p class="panel_title">登录到CNode</p>
 			<div class="signup_form">
