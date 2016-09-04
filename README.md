@@ -48,3 +48,11 @@ $ npm run start
 * 消息页
 
 ![消息页](./screenshots/notification.jpg)
+
+## TODO
+
+* 帖子评论
+* 新建主题
+* 评论点赞
+
+> 其实鉴于手机上对于markdown的支持，我就不想做新建主题了。
