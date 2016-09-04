@@ -1,6 +1,6 @@
 <script>
 	import { fetchUser, signout } from '../vuex/actions';
-	import { getLoginName } from '../vuex/getters';
+	import { getLoginName, getUnreadNotificationsNum } from '../vuex/getters';
 	import { timeFormat } from '../utils';
   import toTop from './toTop';
   import loading from './loading';
@@ -12,7 +12,7 @@
 					recent_topics: [],
 					recent_replies: []
 				},
-				loading: false,
+				loading: true,
 				pageUser: ''
 			}
 		},
@@ -37,7 +37,8 @@
 				fetchUser, signout
 			},
 			getters: {
-				loginname: getLoginName
+				loginname: getLoginName,
+				unread: getUnreadNotificationsNum
 			}
 		},
 		components: {
@@ -45,7 +46,6 @@
 		},
     route: {
       data (transition) {
-      	this.loading = true;
       	this.pageUser = this.$route.params.username;
         this.fetchUser(this.pageUser)
           .then(res => {
@@ -73,13 +73,17 @@
 							<img :src="user.avatar_url" />
 						</div>
 						<div class="user_name">{{ user.loginname }}</div>
-						<div class="button_container">
-							<div class="button" v-if="isSelf" @click="handleLogout">登出</div>
+						<div class="button_container" v-if="isSelf">
+							<div class="button button_warning" @click="handleLogout">登出</div>
+							<a v-link="{ path: '/user/' + loginname + '/notifications'}" class="button button_primary">查看消息</a>
 						</div>
 					</div>
 					<div class="user_github panel_row">github名称：{{ user.githubUsername }}</div>
 					<div class="user_createdAt panel_row">注册于：{{ user.create_at | timeFormat }}</div>
 					<div class="user_score panel_row">积分：{{ user.score }}</div>
+					<div class="user_notification panel_row">
+						未读消息：{{ unread }}
+					</div>
 				</div>
 			</div>
 			<!-- 最近参与 -->
@@ -142,7 +146,6 @@
 	    font-size: 14px;
 	    color: #666;
 	  }
-			  
 		.button_container {
 			text-align: center;
 			.button {
@@ -154,16 +157,18 @@
 				text-align: center;
 				font-size: 14px;
 				color: #fff;
-				background-color: #f64c4c;
+				&.button_warning {
+					background-color: #f64c4c;
+				}
+				&.button_primary {
+					background-color: #6666ff;
+				}
 			}
 		}
 	  .user_github {
 	  	font-size: 16px;
 	  }
-	  .user_createdAt {
-	  	font-size: 12px;
-	  }
-	  .user_score {
+	  .user_createdAt, .user_score, .user_notification {
 	  	font-size: 12px;
 	  }
 	}

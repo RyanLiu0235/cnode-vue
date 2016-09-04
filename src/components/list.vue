@@ -7,7 +7,7 @@
 		data() {
 			return {
 				topicList: [],
-				loading: false,
+				loading: true,
 				page: 1,
 				tabType: ''
 			}
@@ -50,7 +50,6 @@
 			data (transition) {
 				// 切换标签的时候，将上一页的数据清空
 				this.topicList = [];
-				this.loading = true;
 				// 切换标签（all, good, share, job, ask）重新绑定函数
 				window.removeEventListener('scroll', this.loadMore);
 				this.page = 1;

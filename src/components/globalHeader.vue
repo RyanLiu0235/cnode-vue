@@ -1,7 +1,14 @@
 <script>
-
+	import { getLoginName, getAvatarUrl, getUnreadNotificationsNum } from '../vuex/getters';
 	export default {
-		props: ['loginname', 'avatar_url']
+		props: ['loginname', 'avatar_url'],
+		vuex: {
+			getters: {
+				loginname: getLoginName,
+				avatar_url: getAvatarUrl,
+				unread: getUnreadNotificationsNum
+			}
+		}
 	}
 </script>
 
@@ -20,6 +27,7 @@
 				<a v-if="!loginname" class="tab_item" v-link="{ path: '/signin' }">登录</a>
 				<a v-if="loginname" class=" user_name" v-link="{ path: '/user/' + loginname }">
 					<img :src="avatar_url">
+					<i v-if="unread > 0" class="unread_num">{{ unread }}</i>
 				</a>
 			</div>
 		</div>
@@ -88,13 +96,28 @@
 			margin-right: 10px;
 		}
 		.user_name {
+			position: relative;
 			display: block;
 			width: 30px;
-			border-radius: 50%;
-			overflow: hidden;
 			img {
 				display: block;
 				width: 100%;
+				border-radius: 50%;
+			}
+			.unread_num {
+				position: absolute;
+				top: -2px;
+				right: -2px;
+				z-index: 2; 
+		    height: 12px;
+		    min-width: 6px;
+		    line-height: 14px;
+		    padding: 0 3px;
+		    border-radius: 6px;
+				font-size: 10px;
+				color: #fff;
+				font-style: normal;
+				background-color: #f64c4c;
 			}
 		}
 	}

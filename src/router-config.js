@@ -12,6 +12,9 @@ export function routerConfig(router) {
     '/user/:username': {
       component: (resolve) => require(['./components/user'], resolve)
     },
+    '/user/:username/notifications': {
+      component: (resolve) => require(['./components/notification'], resolve)
+    },
     '/signin': {
       component: (resolve) => require(['./components/signin'], resolve)
     }

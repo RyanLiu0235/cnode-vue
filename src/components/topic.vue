@@ -16,7 +16,7 @@
           },
           replies: []
         },
-        loading: false,
+        loading: true,
         topicCollected: false,
         collectState: ''
       }
@@ -64,7 +64,6 @@
 		},
     route: {
       data (transition) {
-        this.loading = true;
         this.fetchTopic(this.$route.params.tid)
           .then(res => {
             transition.next({topic: res});

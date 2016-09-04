@@ -1,18 +1,11 @@
 <script>
 	import store from '../vuex/store';
 	import globalHeader from './globalHeader';
-	import { getLoginName, getAvatarUrl } from '../vuex/getters';
 
 	export default {
 		store,
 		components: {
 			globalHeader
-		},
-		vuex: {
-			getters: {
-				loginname: getLoginName,
-				avatar_url: getAvatarUrl
-			}
 		}
 	}
 </script>
