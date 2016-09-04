@@ -17,10 +17,19 @@
 			handleSignin() {
 				this.signin(this.accesstoken)
 					.then(res => {
-						this.$router.go('/');
+						this.$router.go({
+							path: this.fromPath
+						});
 					}, res => {
 						this.accesstoken = '';
 					});
+			}
+		},
+		route: {
+			data(transition) {
+				transition.next({
+					fromPath: transition.from.path
+				});
 			}
 		}
 	}
