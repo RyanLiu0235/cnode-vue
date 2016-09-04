@@ -29,14 +29,22 @@ $ npm run start
 
 ![帖子详情页](./screenshots/topic.jpg)
 
-* 用户详情页
+* 帖子评论
 
-![用户详情页](./screenshots/user.jpg)
+![帖子评论](./screenshots/comment.jpg)
 
 * 登录页
 
 ![登录页](./screenshots/login.jpg)
 
-* loading
+* 他人详情页
 
-![loading](./screenshots/loading.jpg)
+![他人详情页](./screenshots/user.jpg)
+
+* 自己详情页
+
+![自己详情页](./screenshots/self.jpg)
+
+* 消息页
+
+![消息页](./screenshots/notification.jpg)
