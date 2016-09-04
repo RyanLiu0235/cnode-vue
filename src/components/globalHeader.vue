@@ -1,7 +1,6 @@
 <script>
 	import { getLoginName, getAvatarUrl, getUnreadNotificationsNum } from '../vuex/getters';
 	export default {
-		props: ['loginname', 'avatar_url'],
 		vuex: {
 			getters: {
 				loginname: getLoginName,
