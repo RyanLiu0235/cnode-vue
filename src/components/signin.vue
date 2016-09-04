@@ -1,5 +1,6 @@
 <script>
 	import { signin } from '../vuex/actions';
+	import { getLoginName } from '../vuex/getters';
 
 	export default {
 		data() {
@@ -12,6 +13,9 @@
 		vuex: {
 			actions: {
 				signin
+			},
+			getters: {
+				loginname: getLoginName
 			}
 		},
 		methods: {
@@ -31,9 +35,14 @@
 		},
 		route: {
 			data(transition) {
-				transition.next({
-					fromPath: transition.from.path
-				});
+				if (this.loginname) {
+					transition.abort();
+				} else {
+					transition.next({
+						fromPath: transition.from.path
+					});
+					
+				}
 			}
 		}
 	}
