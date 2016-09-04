@@ -79,7 +79,20 @@ export const fetchNotifications = ({ dispatch }, accesstoken) => {
       return Promise.resolve(res.data.data);
     }, res => {
       return Promise.reject(res);
-    })
+    });
+}
+
+/**
+ * 标记所有未读消息
+ */
+export const markAllNotifications = ({ dispatch }, accesstoken) => {
+  return Vue.http.post('https://cnodejs.org/api/v1/messages/mark_all', { accesstoken: accesstoken })
+    .then(res => {
+      dispatch(types.MARK_ALL_NOTIFICATION);
+      // 重新获取用户的消息详情
+      fetchNotifications({ dispatch }, accesstoken);
+      return Promise.resolve();
+    });
 }
 
 /**

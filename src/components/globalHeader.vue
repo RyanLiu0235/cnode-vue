@@ -34,6 +34,20 @@
 </template>
 
 <style lang="less">
+	* {
+		margin: 0;
+		padding: 0;
+		font-family: 'Microsoft Yahei';
+	}
+	li {
+		list-style: none;
+	}
+	a {
+		text-decoration: none;
+	}
+	body {
+		background-color: #efefef;
+	}
 	.panel {
 		padding: 10px 5px;
 		margin: 10px 5px 0;

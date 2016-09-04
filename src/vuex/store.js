@@ -75,6 +75,10 @@ const mutations = {
 
   [types.GET_USER_NOTIFICATION](state, notifications) {
     state.notifications = notifications;
+  },
+
+  [types.MARK_ALL_NOTIFICATIONS](state) {
+    state.unread = 0;
   }
 };
 

@@ -209,7 +209,6 @@
         height: 30px;
         line-height: 30px;
         padding: 0 10px;
-        margin: 5px auto 0;
         text-align: center;
         font-size: 14px;
         color: #fff;

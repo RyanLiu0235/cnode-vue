@@ -1,6 +1,6 @@
 <script>
 	import { getNotifications, getAccessToken } from '../vuex/getters';
-	import { fetchNotifications } from '../vuex/actions';
+	import { fetchNotifications, markAllNotifications } from '../vuex/actions';
 	import { timeFormat } from '../utils';
 	import loading from './loading';
 	import toTop from './toTop';
@@ -9,7 +9,8 @@
 	export default {
 		data() {
 			return {
-				loading: true
+				loading: true,
+				markState: '全部标为已读'
 			}
 		},
 		components: {
@@ -18,9 +19,18 @@
 		filters: {
 			timeFormat
 		},
+		methods: {
+			handleMark() {
+				this.markState = '标记中...';
+				this.markAllNotifications(this.accesstoken)
+					.then(res => {
+						this.markState = '';
+					})
+			}
+		},
 		vuex: {
 			actions: {
-				fetchNotifications
+				fetchNotifications, markAllNotifications
 			},
 			getters: {
 				notifications: getNotifications,
@@ -46,7 +56,12 @@
 		<div v-if="!loading">
 			<!-- 未读消息 -->
 			<div class="unread_notifications panel">
-				<div class="panel_title">未读消息</div>
+				<div class="panel_title unread_title" >
+					<span class="title">未读消息</span>
+					<div v-if="notifications.hasnot_read_messages.length > 0" class="button_container">
+						<span class="mark_all button button_warning" :class="markState === '标记中...' ? 'process' : ''" @click="handleMark">{{ markState }}</span>
+					</div>
+				</div>
 				<p class="panel_empty" v-if="notifications.hasnot_read_messages.length === 0">没有未读消息</p>
 				<div class="notification_list" v-if="notifications.hasnot_read_messages.length > 0">
 					<div class="notification_item" v-for="item in notifications.hasnot_read_messages">
@@ -86,6 +101,35 @@
 </template>
 
 <style lang="less" scoped>
+	.unread_title {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		.title {
+			display: block;
+		}
+		.button_container {
+			text-align: center;
+			.button {
+				display: inline-block;
+				height: 30px;
+				line-height: 30px;
+				padding: 0 10px;
+				text-align: center;
+				font-size: 14px;
+				color: #fff;
+				&.button_warning {
+					background-color: #f64c4c;
+					&.process {
+						background-color: lighten(#f64c4c, 10%); 
+					}
+				}
+				&.button_primary {
+					background-color: #6666ff;
+				}
+			}
+		}
+	}
 	.notification_list {
 		background-color: #fff;
 		.notification_item {
