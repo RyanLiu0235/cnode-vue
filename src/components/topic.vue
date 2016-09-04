@@ -97,7 +97,6 @@
 
 <template>
 	<div>
-		<global-header :loginname="loginname" :avatar_url="avatar_url"></global-header>
     <div v-show="loading" class="panel">
       <loading loading="loading"></loading>
     </div>
