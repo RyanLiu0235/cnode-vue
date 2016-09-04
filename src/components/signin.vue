@@ -15,12 +15,10 @@
 		},
 		methods: {
 			handleSignin() {
-				// console.log(this.accesstoken)
 				this.signin(this.accesstoken)
 					.then(res => {
 						this.$router.go('/');
 					}, res => {
-						console.log(res);
 						this.accesstoken = '';
 					});
 			}

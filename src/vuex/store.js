@@ -17,7 +17,7 @@ const state = {
     accesstoken: getLocalItem('accesstoken') || '',
     avatar_url: getLocalItem('avatar_url') || ''
   },
-  collectTopics: []
+  collectedTopics: getLocalItem('collect_topics') ? getLocalItem('collect_topics').split(',') : false || []
 };
 
 const mutations = {
@@ -51,13 +51,17 @@ const mutations = {
 
   [types.COLLECT_TOPIC](state) {},
   [types.COLLECT_TOPIC_SUCCESS](state, data) {
-
+    // 每次收藏成功，就更新store以及sessionStorage里的收藏名单
+    state.collectedTopics.push(data);
+    saveLocalItem('collect_topics', state.collectedTopics);
   },
   [types.COLLECT_TOPIC_FAILURE](state) {},
 
   [types.DECOLLECT_TOPIC](state) {},
   [types.DECOLLECT_TOPIC_SUCCESS](state, data) {
-
+    // 每次取消收藏成功，就更新store以及sessionStorage里的收藏名单
+    state.collectedTopics.pop(data);
+    saveLocalItem('collect_topics', state.collectedTopics);
   },
   [types.DECOLLECT_TOPIC_FAILURE](state) {},
 
@@ -69,6 +73,12 @@ const mutations = {
     removeLocalItem('loginname');
     removeLocalItem('accesstoken');
     removeLocalItem('avatar_url');
+  },
+
+  [types.GET_USER_COLLECT](state, cids) {
+    state.collectedTopics = cids;
+
+    saveLocalItem('collect_topics', cids);
   }
 };
 

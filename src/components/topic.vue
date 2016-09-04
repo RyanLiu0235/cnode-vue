@@ -1,6 +1,6 @@
 <script>
-	import { fetchTopic, collectTopic } from '../vuex/actions';
-  import { getAccessToken } from '../vuex/getters';
+	import { fetchTopic, deCollectTopic, collectTopic, num } from '../vuex/actions';
+  import { getAccessToken, getCollectedTopics } from '../vuex/getters';
 	import { timeFormat, prefixUrl } from '../utils';
 	import '../public/less/markdown.less';
   import toTop from './toTop';
@@ -16,55 +16,41 @@
           },
           replies: []
         },
-        loading: false
+        loading: false,
+        topicCollected: false
       }
     },
 		filters: {
 			timeFormat
 		},
     methods: {
-      handleCollectTopic(e) {
-        // 登录拦截
-        if (!this.accesstoken) {
-          return alert('请先登录');
-        }
-        this.collectTopic(this.accesstoken, this.topic.id)
-          .then(res => {
-            if (res) {
-              e.target.innerText = '已收藏';
-              e.target.style.backgroundColor = '#96d754';
-            }
-          }, res => {
-            alert('收藏失败，请稍后重试');
-          })
-      },
-      loadMore() {
-        let clientHeight = document.body.clientHeight;
-        let scrollHeight = document.body.scrollTop;
-        let screenHeight = window.screen.height;
-
-        // 如果滑到底了，加载
-        if (clientHeight < screenHeight + scrollHeight ) {
-          // 如果正在加载，则不继续请求
-          if (this.loading) return;
-          this.loading = true;
-          this.fetchList(this.tabType, ++this.page)
+      handleCollectTopic() {
+        if (this.topicCollected) {
+          // 如果已收藏，则取消收藏
+          this.deCollectTopic(this.accesstoken, this.topic.id)
             .then(res => {
-              this.topicList = this.topicList.concat(res);
-              this.loading = false;
+              this.topicCollected = false;  
             }, res => {
-              alert('加载失败，请稍后重试');
-              this.loading = false;
+              alert('取消收藏失败，请稍后重试');
+            });
+        } else {
+          // 收藏
+          this.collectTopic(this.accesstoken, this.topic.id)
+            .then(res => {
+              this.topicCollected = true;
+            }, res => {
+              alert('收藏失败，请稍后重试');
             });
         }
       }
     },
 		vuex: {
 			actions: {
-				fetchTopic, collectTopic
+				fetchTopic, collectTopic, deCollectTopic
 			},
       getters: {
-        accesstoken: getAccessToken
+        accesstoken: getAccessToken,
+        collectedTopics: getCollectedTopics
       }
 		},
 		components: {
@@ -77,15 +63,21 @@
           .then(res => {
             transition.next({topic: res});
             this.loading = false;
-            // 将页面上的通过 @ 方式形成的用户详情页链接转换成 #!/user/somebody 的格式
+            
             this.$nextTick(() => {
+              // 将页面上的通过 @ 方式形成的用户详情页链接转换成 #!/user/somebody 的格式
               let mLink = document.querySelectorAll('a');
               mLink.forEach((link, index) => {
-                var _url = prefixUrl(link.getAttribute('href'));
+                let _url = prefixUrl(link.getAttribute('href'));
                 if (!!_url) {
                   link.setAttribute('href', _url);
                 }
               });
+
+              // 判断本帖子用户是否已经收藏
+              if (this.accesstoken) { // 只针对登录用户判断
+                this.topicCollected = this.collectedTopics.indexOf(this.topic.id) > -1;
+              }
             });
           }, res => {
             return {topic: {}}
@@ -115,7 +107,7 @@
               <span>{{topic.create_at | timeFormat}}</span>
               <span>{{topic.reply_count}} / {{topic.visit_count}}</span>    
             </div>
-            <span class="collect_button" @click="handleCollectTopic">收藏</span>
+            <span v-if="accesstoken" class="collect_button" :class="topicCollected ? 'collected' : ''" @click="handleCollectTopic">{{ topicCollected ? '已收藏' : '收藏' }}</span>
           </div>
         </div>
         <div class="topic_body">
@@ -205,6 +197,9 @@
             background-color: #63c200;
             color: #fff;
             border-radius: 5px;
+            &.collected {
+              background-color: #96d754;
+            }
           }
         }
       }

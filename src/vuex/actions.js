@@ -55,6 +55,14 @@ export const signin = ({ dispatch }, accesstoken) => {
   dispatch(types.SIGN_IN);
   return Vue.http.post('https://cnodejs.org/api/v1/accesstoken', { accesstoken: accesstoken })
     .then(res => {
+      // 登录成功，获取用户收藏的帖子
+      Vue.http.get('https://cnodejs.org/api/v1/topic_collect/' + res.data.loginname)
+        .then(res_c => {
+          let cids = res_c.data.data.map(function(item, index) {
+            return item.id;
+          });
+          dispatch(types.GET_USER_COLLECT, cids);
+        });
       // 登录成功，本地缓存用户名与accessToken，以及用户头像
       dispatch(types.SIGN_IN_SUCCESS, { loginname: res.data.loginname, accesstoken: accesstoken, avatar_url: res.data.avatar_url });
       return Promise.resolve(res.data.loginname);
@@ -79,10 +87,25 @@ export const collectTopic = ({ dispatch }, accesstoken, topic_id) => {
   dispatch(types.COLLECT_TOPIC);
   return Vue.http.post('https://cnodejs.org/api/v1/topic_collect/collect', { accesstoken: accesstoken, topic_id: topic_id })
     .then(res => {
-      dispatch(types.COLLECT_TOPIC_SUCCESS, res.data.success);
+      dispatch(types.COLLECT_TOPIC_SUCCESS, topic_id);
       return Promise.resolve(res.data.success);
     }, res => {
       dispatch(types.COLLECT_TOPIC_FAILURE);
       return Promise.reject(res);
-    })
+    });
+}
+
+/**
+ * 取消收藏帖子
+ */
+export const deCollectTopic = ({ dispatch }, accesstoken, topic_id) => {
+  dispatch(types.DECOLLECT_TOPIC);
+  return Vue.http.post('https://cnodejs.org/api/v1/topic_collect/de_collect', { accesstoken: accesstoken, topic_id: topic_id })
+    .then(res => {
+      dispatch(types.DECOLLECT_TOPIC_SUCCESS, topic_id);
+      return Promise.resolve(res.data.success);
+    }, res => {
+      dispatch(types.DECOLLECT_TOPIC_FAILURE);
+      return Promise.reject(res);
+    });
 }
