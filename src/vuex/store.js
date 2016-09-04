@@ -62,7 +62,9 @@ const mutations = {
   [types.DECOLLECT_TOPIC_FAILURE](state) {},
 
   [types.SIGN_OUT](state) {
-    delete state.loginUser;
+    state.loginUser.loginname = '';
+    state.loginUser.accesstoken = '';
+    state.loginUser.avatar_url = '';
     // 删除本地存储
     removeLocalItem('loginname');
     removeLocalItem('accesstoken');
