@@ -17,7 +17,8 @@
           replies: []
         },
         loading: false,
-        topicCollected: false
+        topicCollected: false,
+        collectState: ''
       }
     },
 		filters: {
@@ -25,20 +26,25 @@
 		},
     methods: {
       handleCollectTopic() {
+        this.collectState = '处理中...';
         if (this.topicCollected) {
           // 如果已收藏，则取消收藏
           this.deCollectTopic(this.accesstoken, this.topic.id)
             .then(res => {
+              this.collectState = '';
               this.topicCollected = false;  
             }, res => {
+              this.collectState = '';
               alert('取消收藏失败，请稍后重试');
             });
         } else {
           // 收藏
           this.collectTopic(this.accesstoken, this.topic.id)
             .then(res => {
+              this.collectState = '';
               this.topicCollected = true;
             }, res => {
+              this.collectState = '';
               alert('收藏失败，请稍后重试');
             });
         }
@@ -107,7 +113,9 @@
               <span>{{topic.create_at | timeFormat}}</span>
               <span>{{topic.reply_count}} / {{topic.visit_count}}</span>    
             </div>
-            <span v-if="accesstoken" class="collect_button" :class="topicCollected ? 'collected' : ''" @click="handleCollectTopic">{{ topicCollected ? '已收藏' : '收藏' }}</span>
+            <div class="button_container">
+              <div v-if="accesstoken" class="button" :class="collectState === '处理中...' ? 'process' : ''" :class="topicCollected ? 'collected' : ''" @click="handleCollectTopic">{{ !collectState ? (topicCollected ? '已收藏' : '收藏') : collectState }}</div>
+            </div>
           </div>
         </div>
         <div class="topic_body">
@@ -192,15 +200,26 @@
           &:nth-child(2) {
             color: #666;
           }
-          &.collect_button {
-            width: 50px;
-            background-color: #63c200;
-            color: #fff;
-            border-radius: 5px;
-            &.collected {
-              background-color: #96d754;
-            }
-          }
+        }
+      }
+    }
+    .button_container {
+      text-align: center;
+      .button {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 10px;
+        margin: 5px auto 0;
+        text-align: center;
+        font-size: 14px;
+        color: #fff;
+        background-color: #efd443;
+        &.process {
+          background-color: darken(#efd443, 20%);
+        }
+        &.collected {
+          background-color: lighten(#efd443, 20%);
         }
       }
     }

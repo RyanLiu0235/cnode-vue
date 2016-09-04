@@ -5,7 +5,8 @@
 		data() {
 			return {
 				fromPath: '',
-				accesstoken: ''
+				accesstoken: '',
+				landState: '登录'
 			}
 		},
 		vuex: {
@@ -15,12 +16,15 @@
 		},
 		methods: {
 			handleSignin() {
+				this.landState = '登录中...';
 				this.signin(this.accesstoken)
 					.then(res => {
+						this.landState = '登录成功';
 						this.$router.go({
 							path: this.fromPath
 						});
 					}, res => {
+						this.landState = '登录';
 						this.accesstoken = '';
 					});
 			}
@@ -46,7 +50,9 @@
 						<input v-model="accesstoken" type="text" id="accesstoken" name="accesstoken" placeholder="请输入">
 					</div>
 				</div>
-				<span class="signup_button" @click="handleSignin">登录</span>
+				<div class="button_container">
+					<span class="signup_button" :class="landState === '登录中...' ? 'landing' : ''" @click="handleSignin">{{ landState }}</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -79,14 +85,22 @@
 		}
 	}
 }
-.signup_button {
-	display: block;
-	width: 60px;
-	height: 30px;
-	line-height: 30px;
-	margin: 5px auto 0;
+.button_container {
 	text-align: center;
-	color: #fff;
-	background-color: #f64c4c;
+	.signup_button {
+		display: inline-block;
+		height: 30px;
+		line-height: 30px;
+		padding: 0 10px;
+		margin: 5px auto 0;
+		text-align: center;
+		font-size: 14px;
+		color: #fff;
+		background-color: #f64c4c;
+		&.landing {
+			background-color: darken(#f64c4c, 20%);
+		}
+	}
 }
+	
 </style>

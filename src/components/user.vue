@@ -73,7 +73,9 @@
 							<img :src="user.avatar_url" />
 						</div>
 						<div class="user_name">{{ user.loginname }}</div>
-						<div class="logout_button" v-if="isSelf" @click="handleLogout">登出</div>
+						<div class="button_container">
+							<div class="button" v-if="isSelf" @click="handleLogout">登出</div>
+						</div>
 					</div>
 					<div class="user_github panel_row">github名称：{{ user.githubUsername }}</div>
 					<div class="user_createdAt panel_row">注册于：{{ user.create_at | timeFormat }}</div>
@@ -140,14 +142,21 @@
 	    font-size: 14px;
 	    color: #666;
 	  }
-	  .logout_button {
-	    padding: 0 5px;
-		  line-height: 22px;
-		  color: #fff;
-		  font-size: 14px;
-		  border-radius: 2px;
-		  background-color: #f64c4c;
-	  }
+			  
+		.button_container {
+			text-align: center;
+			.button {
+				display: inline-block;
+				height: 30px;
+				line-height: 30px;
+				padding: 0 10px;
+				margin: 5px auto 0;
+				text-align: center;
+				font-size: 14px;
+				color: #fff;
+				background-color: #f64c4c;
+			}
+		}
 	  .user_github {
 	  	font-size: 16px;
 	  }
