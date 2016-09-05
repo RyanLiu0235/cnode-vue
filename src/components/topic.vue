@@ -9,13 +9,7 @@
 	export default {
     data() {
       return {
-        topic: {
-          author: {
-            avatar_url: '',
-            loginname: ''
-          },
-          replies: []
-        },
+        topic: {},
         loading: true,
         topicCollected: false,
         collectState: ''
@@ -97,7 +91,7 @@
     <div v-show="loading" class="panel">
       <loading loading="loading"></loading>
     </div>
-  	<div v-show="!loading">
+  	<div v-if="!loading">
       <div class="panel topic_detail">
         <div class="topic_header">
           <h2 class="topic_title">{{topic.title}}</h2>

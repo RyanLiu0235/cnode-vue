@@ -8,10 +8,7 @@
 	export default {
 		data() {
 			return {
-				user: {
-					recent_topics: [],
-					recent_replies: []
-				},
+				user: {},
 				loading: true,
 				pageUser: ''
 			}
@@ -64,7 +61,7 @@
 		<div v-show="loading" class="panel">
 			<loading loading="loading"></loading>
 		</div>
-		<div v-show="!loading">
+		<div v-if="!loading">
 			<div class="user_info panel">
 				<div class="panel_title">个人简介</div>
 				<div class="panel_container">
