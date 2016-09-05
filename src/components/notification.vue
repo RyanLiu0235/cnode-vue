@@ -133,6 +133,7 @@
 	.notification_list {
 		background-color: #fff;
 		.notification_item {
+			padding-bottom: 5px;
 			border-bottom: 1px #e0e0e0 solid;
 		}
 		.notification_author {
@@ -175,7 +176,7 @@
 	    }
 		}
 		.reply_content {
-			max-height: 45px;
+			max-height: 44px;
 	    padding: 5px;
 	    margin-top: 5px;
 	    background: #d4d4d4;
