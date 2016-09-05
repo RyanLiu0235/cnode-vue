@@ -81,7 +81,7 @@
 					<div class="user_github panel_row">github名称：{{ user.githubUsername }}</div>
 					<div class="user_createdAt panel_row">注册于：{{ user.create_at | timeFormat }}</div>
 					<div class="user_score panel_row">积分：{{ user.score }}</div>
-					<div class="user_notification panel_row">
+					<div v-if="isSelf" class="user_notification panel_row">
 						未读消息：{{ unread }}
 					</div>
 				</div>
