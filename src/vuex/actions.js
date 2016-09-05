@@ -86,7 +86,7 @@ export const fetchNotifications = ({ dispatch }, accesstoken) => {
  * 标记所有未读消息
  */
 export const markAllNotifications = ({ dispatch }, accesstoken) => {
-  return Vue.http.post('https://cnodejs.org/api/v1/messages/mark_all', { accesstoken: accesstoken })
+  return Vue.http.post('https://cnodejs.org/api/v1/message/mark_all', { accesstoken: accesstoken })
     .then(res => {
       dispatch(types.MARK_ALL_NOTIFICATION);
       // 重新获取用户的消息详情

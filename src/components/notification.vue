@@ -24,8 +24,8 @@
 				this.markState = '标记中...';
 				this.markAllNotifications(this.accesstoken)
 					.then(res => {
-						this.markState = '';
-					})
+						this.markState = '标记成功';
+					});
 			}
 		},
 		vuex: {
@@ -65,13 +65,17 @@
 				<p class="panel_empty" v-if="notifications.hasnot_read_messages.length === 0">没有未读消息</p>
 				<div class="notification_list" v-if="notifications.hasnot_read_messages.length > 0">
 					<div class="notification_item" v-for="item in notifications.hasnot_read_messages">
-						<div class="content">
+						<div class="notification_author">
+							<div class="author_avatar">
+								<img :src="item.author.avatar_url">
+							</div>
 							<a v-link="{ path: '/user/' + item.author.loginname }" class="author_name">{{ item.author.loginname }}</a>
-							回复了你的帖子
-							<a v-link="{ path: '/topic/' + item.topic.id }">{{ item.topic.title }}</a>
 							<span class="reply_time">{{ item.create_at | timeFormat }}</span>
 						</div>
-						<div v-html="item.reply.content"></div>
+						<div class="reply_topic">
+							回复了主题：<a v-link="{ path: '/topic/' + item.topic.id }">{{ item.topic.title }}</a>
+						</div>
+						<div class="reply_content" v-html="item.reply.content"></div>
 		      </div>
 				</div>
 			</div>
