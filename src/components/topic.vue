@@ -1,7 +1,7 @@
 <script>
-	import { fetchTopic, deCollectTopic, collectTopic, num } from '../vuex/actions';
+	import { fetchTopic, deCollectTopic, collectTopic } from '../vuex/actions';
   import { getAccessToken, getCollectedTopics } from '../vuex/getters';
-	import { timeFormat, prefixUrl } from '../utils';
+	import { timeFormat, prefixUrl, translateTab } from '../utils';
 	import '../public/less/markdown.less';
   import toTop from './toTop';
   import loading from './loading';
@@ -16,7 +16,7 @@
       }
     },
 		filters: {
-			timeFormat
+			timeFormat, translateTab
 		},
     methods: {
       handleCollectTopic() {
@@ -104,7 +104,8 @@
                 <span class="topic_author">{{topic.author.loginname}}</span>
               </a>
               <span>{{topic.create_at | timeFormat}}</span>
-              <span>{{topic.reply_count}} / {{topic.visit_count}}</span>    
+              <span>{{topic.reply_count}} / {{topic.visit_count}}</span>  
+              <span class="topic_tab {{topic.tab}}">{{topic.tab | translateTab}}</span>  
             </div>
             <div class="button_container">
               <div v-if="accesstoken" class="button" :class="collectState === '处理中...' ? 'process' : ''" :class="topicCollected ? 'collected' : ''" @click="handleCollectTopic">{{ !collectState ? (topicCollected ? '已收藏' : '收藏') : collectState }}</div>
@@ -184,14 +185,26 @@
         }
         span {
           display: block;
-          height: 28px;
-          line-height: 28px;
+          line-height: 22px;
           margin-right: 4px;
           font-size: 12px;
           color: #999;
           text-align: center;
           &:nth-child(2) {
             color: #666;
+          }
+          &.topic_tab {
+            padding: 0px 5px;
+            color: #fff;
+            &.share {
+              background-color: #d47869;
+            }
+            &.ask {
+              background-color: #bf69d4;
+            }
+            &.job {
+              background-color: #69bbd4;
+            }
           }
         }
       }

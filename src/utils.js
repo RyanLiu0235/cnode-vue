@@ -36,6 +36,24 @@ exports.prefixUrl = function(url) {
   return '#!' + url;
 }
 
+/**
+ * 将tab类型转换成汉字
+ * @param  {String} tab 待转化的tab类型
+ * @return {String}     翻译之后的tab类型
+ */
+exports.translateTab = function(tab) {
+  switch (tab) {
+    case 'share':
+      return '分享';
+      break;
+    case 'ask':
+      return '问答';
+      break;
+    case 'job':
+      return '招聘';
+      break;
+  }
+}
 
 
 exports.saveLocalItem = function(key, value) {
