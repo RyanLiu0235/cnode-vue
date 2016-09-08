@@ -6,10 +6,7 @@
 			if (!this.loginname) return;
 			// 每5分钟检查一次未读消息
 			setInterval(() => {
-				this.fetchNotificationNum(this.accesstoken)
-					.then(res => {
-						this.unread = res;
-					})
+				this.fetchNotificationNum(this.accesstoken);
 			}, 1000 * 60 * 5);
 		},
 		vuex: {

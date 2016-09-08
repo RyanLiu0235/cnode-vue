@@ -76,9 +76,6 @@ export const fetchNotificationNum = ({ dispatch }, accesstoken) => {
   return Vue.http.get('https://cnodejs.org/api/v1/message/count/?accesstoken=' + accesstoken)
     .then(res => {
       dispatch(types.GET_USER_NOTIFICATION_NUM, res.data.data);
-      return Promise.resolve(res.data.data);
-    }, res => {
-      return Promise.reject(res);
     });
 }
 
