@@ -1,8 +1,23 @@
 <script>
-	import { getLoginName, getAvatarUrl, getUnreadNotificationsNum } from '../vuex/getters';
+	import { fetchNotificationNum } from '../vuex/actions';
+	import { getLoginName, getAvatarUrl, getUnreadNotificationsNum, getAccessToken } from '../vuex/getters';
 	export default {
+		ready() {
+			if (!this.loginname) return;
+			// 每5分钟检查一次未读消息
+			setInterval(() => {
+				this.fetchNotificationNum(this.accesstoken)
+					.then(res => {
+						this.unread = res;
+					})
+			}, 1000 * 60 * 5);
+		},
 		vuex: {
+			actions: {
+				fetchNotificationNum
+			},
 			getters: {
+				accesstoken: getAccessToken,
 				loginname: getLoginName,
 				avatar_url: getAvatarUrl,
 				unread: getUnreadNotificationsNum
